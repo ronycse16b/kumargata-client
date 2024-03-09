@@ -3,8 +3,8 @@
 const Navbar = ({handleToggleClick,
     setMobileMenuOpen}) => {
     return (
-        <div className="navbar bg-primary sticky top-0  shadow-sm rounded-md z-40  ">
-            <div className="flex-1">
+        <div className="navbar bg-primary sticky top-5  flex justify-between shadow-sm rounded-md z-40  ">
+            <div className="">
             
                 <button  onClick={() => handleToggleClick(() => setMobileMenuOpen(true))}  className="p-2 ">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-5 h-5 fill-current dark:text-gray-100">
@@ -14,7 +14,14 @@ const Navbar = ({handleToggleClick,
                     </svg>
                 </button>
             </div>
-            <div className="flex-none">
+
+             <div className="font-semibold sm:text-xl">
+                <img src="https://doulkhaup.comillalg.gov.bd/logo_images/logo.png" className="avatar w-6 mr-2" alt="" srcset="" />
+                <h1>দৌলখাঁড় ইউনিয়ন পরিষদ</h1>
+             </div>
+
+
+            <div className="">
               
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">

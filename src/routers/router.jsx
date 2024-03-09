@@ -7,6 +7,12 @@ import NotFound from '../pages/NotFound';
 import User from '../pages/User';
 import Register from '../pages/Register';
 import ProtectedRoute from './ProtectedRoute';
+import AddDataFrom from '../pages/AddDataFrom';
+import AssesmentTable from '../pages/AssesmentTable';
+import PerHoldingDetails from '../components/PerHoldingDetails';
+import UpdateData from '../components/UpdateData';
+import HoldingAndTaxCheck from '../pages/HoldingAndTaxCheck';
+import Tax from '../pages/Tax';
 
 
 
@@ -22,9 +28,45 @@ export const router = createBrowserRouter([
         
       },
       {
-        name:"content",
-        path: "/user",
-        element: <User />,
+        name:"home",
+        path: "/home",
+        element: <Home />,
+        
+      },
+      {
+        name:"application-form",
+        path: "/application-form",
+        element: <AddDataFrom />,
+        
+      },
+      {
+        name:"data-by-ward",
+        path: "/data-by-ward/:id",
+        element: <AssesmentTable />,
+        
+      },
+      {
+        name:"per-holding-details",
+        path: "/details/:id",
+        element: <PerHoldingDetails />,
+        
+      },
+      {
+        name:"update",
+        path: "/update/:id",
+        element: <UpdateData />,
+        
+      },
+      {
+        name:"Holding ",
+        path: "/holding-check",
+        element: <HoldingAndTaxCheck />,
+        
+      },
+      {
+        name:"Tax ",
+        path: "/tax",
+        element: <Tax />,
         
       },
     ],

@@ -1,17 +1,20 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom'
 import Loader from '../components/Loader';
 
 export default function ProtectedRoute({ children }) {
-    const { user, setUserLoading, } = useSelector((state) => state.auth);
+  const { userInfo, loading } = useSelector((state) => state.auth);
 
+  if (loading) {
+    return <Loader />;
+  }
 
+  // If user is not logged in, redirect to login page
+  if (!userInfo) {
+    return <Navigate to="/login" replace />;
+  }
 
-    return (
-        <div className=''>
-            {setUserLoading ? <Loader/>: user ? children : <Navigate to='/login' replace={true} />}
-
-        </div>
-    );
+  // If user is logged in, render the children components
+  return children;
 }

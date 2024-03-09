@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import SideBar from "../components/SideBar";
@@ -23,30 +23,30 @@ export default function DashboardLayOut() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50/50  ">
+    <div className="min-h-screen bg-gray-50/50 scrollbar-hide ">
       <aside className={`bg-gradient-to-br from-gray-800 to-gray-900 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 ${mobileMenuOpen ? '' : '-translate-x-80'}`}>
         <div className="relative border-b border-white/20">
           <a className="flex items-center gap-4 py-6 px-8" href="#/">
             <h6 className="block antialiased tracking-normal font-sans font-bold text-sm uppercase leading-relaxed text-white">
-            ERP System
-            </h6>  
-     
-      
+              smart union management
+            </h6>
+
+
           </a>
-          
+
         </div>
         <div className="m-4 ">
-      <SideBar  handleToggleClick={handleToggleClick} setMobileMenuOpen={setMobileMenuOpen}  />
-    
+          <SideBar handleToggleClick={handleToggleClick} setMobileMenuOpen={setMobileMenuOpen} />
+
         </div>
       </aside>
       <div className="p-4 xl:ml-80">
         <Navbar handleToggleClick={handleToggleClick} setMobileMenuOpen={setMobileMenuOpen} />
         <div className="mt-6"><hr className="" /></div>
-        <div className="">
-          
+        <div className="scrollbar-hide">
+
           <div>
-         
+
             <Outlet />
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function DashboardLayOut() {
                 </Link>{" "}
                 for a better web.{" "}
               </p>
-             
+
             </div>
           </footer>
         </div>
