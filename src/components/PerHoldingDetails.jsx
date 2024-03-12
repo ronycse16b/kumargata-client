@@ -21,6 +21,8 @@ export default function PerHoldingDetails() {
   }, [id, data,refetch])
 
 
+  console.log(data);
+
 
   const dateObject = new Date(data?.data?.createdAt);
   // Options for formatting the date

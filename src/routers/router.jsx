@@ -13,6 +13,11 @@ import PerHoldingDetails from '../components/PerHoldingDetails';
 import UpdateData from '../components/UpdateData';
 import HoldingAndTaxCheck from '../pages/HoldingAndTaxCheck';
 import Tax from '../pages/Tax';
+import PaymentPrint from '../pages/PaymentPrint';
+import TaxRegister from '../pages/TaxRegister';
+import Table from '../components/Table';
+import PaymentHistory from '../components/PaymentHistory';
+
 
 
 
@@ -67,6 +72,24 @@ export const router = createBrowserRouter([
         name:"Tax ",
         path: "/tax",
         element: <Tax />,
+        
+      },
+      {
+        name:"Payment",
+        path: "/payment-print",
+        element: <PaymentPrint />,
+        
+      },
+      {
+        name:"Payment Register",
+        path: "/tax-register",
+        element: <TaxRegister />,
+        
+      },
+      {
+        name:"Payment Register",
+        path: "/payment-recipt",
+        element: <PaymentHistory />,
         
       },
     ],

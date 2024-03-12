@@ -169,7 +169,7 @@ export default function Tax() {
       <div className="sm:px-2 sm:mt-5  relative  ">
         {loading ? (
           <div className="h-[80vh] flex items-center justify-center absolute left-1/2">
-            <h1 className="text-red-600 animate-pulse ">Payment Processing... </h1>
+            <h1 className="text-red-600 animate-pulse font-bold ">Payment Processing... </h1>
           </div>
         ) : (
           <>
@@ -646,10 +646,10 @@ export default function Tax() {
                       />
                     </ul>
                   </div>
-                  <div className="card-actions justify-center mt-10 ">
+                  <div className="card-actions items-center justify-center mt-10 ">
                     <Link
                       to="/payment-print"
-                      className="btn-primary text-white badge badge-outline "
+                      className="bg-blue-600 px-3 py-3 text-white badge badge-outline "
                     >
                       PRINT RECEIPT
                     </Link>

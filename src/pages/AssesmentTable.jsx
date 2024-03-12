@@ -28,7 +28,7 @@ export default function AllData() {
     const [searchResults, setSearchResults] = useState();
     const [union, setUnion] = useState(null);
     const [searchLoading, setSearchLoading] = useState(false);
-    const [totalPages, setTotalPages] = useState(1);
+
     const [page, setPage] = useState(1);
     const { id } = useParams();
     const initialPerPage = localStorage.getItem('perPage') || 5;
@@ -37,6 +37,7 @@ export default function AllData() {
     const { data: calculateData, isFetching: isLoadingCalculateData, refetch: refetchCalculateData } = useGetWardDataForCalculateQuery({ ward: id, });
     const [searchQuery, setSearchQuery] = useState('')
     // useEffect hook to save perPage to localStorage whenever it changes
+    const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
         localStorage.setItem('perPage', perPage.toString());
     }, [perPage]); // Dependency array ensures this effect runs whenever perPage changes
@@ -52,8 +53,9 @@ export default function AllData() {
 
     useEffect(() => {
         refetch()
+        setTotalPages(data?.totalPages)
         refetchCalculateData()
-    }, [id, refetch, refetchCalculateData]);
+    }, [data, id, refetch, refetchCalculateData]);
 
     const totalHolding = calculateData?.data?.reduce(
         (acc, currentValue) => {
@@ -256,25 +258,25 @@ export default function AllData() {
                                 <p> উপজেলাঃনাঙ্গলকোট  জেলাঃকুমিল্লা</p>
                             </div>
 
-                            <table className="table table-sm  table-zebra p-2 ">
+                            <table className="table table-sm  table-zebra p-2  ">
                                 <thead className="shadow-md bg-slate-500  text-white print:text-white   ">
                                     <tr className="">
-                                        <th className="">ক্রমিক</th>
-                                        <th className="">হোল্ডিং</th>
-                                        <th className="">ওয়ার্ড</th>
-                                        <th className="min-w-32">মালিকের নাম</th>
-                                        <th className="min-w-32">পিতার/স্বামীর নাম</th>
-                                        <th className="">মোবাইল</th>
-                                        <th className="min-w-32">গ্রাম</th>
-                                        <th className="">পুরুষ</th>
-                                        <th className="">নারী</th>
-                                        <th className="">বাড়ির ধরন</th>
-                                        <th className="min-w-32">পেশা</th>
-                                        <th className="min-w-32">বাড়ির নাম</th>
-                                        <th className="">বার্ষিক আয়</th>
-                                        <th className="">বকেয়াঃ</th>
-                                        <th className="">করঃ</th>
-                                        <th className="print:hidden ">সংশোধন</th>
+                                        <th className=" border ">ক্রমিক</th>
+                                        <th className=" border ">হোল্ডিং</th>
+                                        <th className=" border ">ওয়ার্ড</th>
+                                        <th className=" border min-w-32">মালিকের নাম</th>
+                                        <th className=" border min-w-32">পিতার/স্বামীর নাম</th>
+                                        <th className=" border ">মোবাইল</th>
+                                        <th className=" border min-w-32">গ্রাম</th>
+                                        <th className=" border ">পুরুষ</th>
+                                        <th className=" border ">নারী</th>
+                                        <th className=" border ">বাড়ির ধরন</th>
+                                        <th className=" border min-w-32">পেশা</th>
+                                        <th className=" border min-w-32">বাড়ির নাম</th>
+                                        <th className=" border ">বার্ষিক আয়</th>
+                                        <th className=" border ">বকেয়াঃ</th>
+                                        <th className=" border ">করঃ</th>
+                                        <th className=" border print:hidden ">সংশোধন</th>
                                     </tr>
                                 </thead>
                                 <tbody className="">
@@ -326,6 +328,7 @@ export default function AllData() {
                         </span>
                         <div className="space-x-1 ml-2 flex items-center gap-2">
                             <button
+                                disabled={page <= 1}
                                 onClick={handlePreviousPage}
                                 title="previous"
                                 type="button"
@@ -344,6 +347,7 @@ export default function AllData() {
                                 </svg>
                             </button>
                             <button
+                                disabled={page >= totalPages}
                                 onClick={handleNextPage}
                                 title="next"
                                 type="button"
@@ -364,7 +368,7 @@ export default function AllData() {
                             <select
                                 defaultValue={perPage}
                                 onChange={handlePerPageChange}
-                                className="select  select-xs w-full max-w-[80px]"
+                                className="select  select-xs w-full max-w-[80px] outline-none border border-gray-400"
                             >
 
                                 <option value={5}>05</option>

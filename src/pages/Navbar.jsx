@@ -16,7 +16,7 @@ const Navbar = ({handleToggleClick,
             </div>
 
              <div className="font-semibold sm:text-xl">
-                <img src="https://doulkhaup.comillalg.gov.bd/logo_images/logo.png" className="avatar w-6 mr-2" alt="" srcset="" />
+                <img src="https://doulkhaup.comillalg.gov.bd/logo_images/logo.png" className="avatar w-6 mr-2" alt="" srcSet="" />
                 <h1>দৌলখাঁড় ইউনিয়ন পরিষদ</h1>
              </div>
 

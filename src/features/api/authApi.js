@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const authApi = createApi({
-  reducerPath: 'authApi',
+  reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_SERVER_URL,
     prepareHeaders: (headers, { getState }) => {
@@ -41,16 +41,16 @@ export const authApi = createApi({
         method: 'POST',
         body: data,
       }),
-      async onQueryStarted(data, { dispatch, queryFulfilled }) {
-        try {
-          const { data: createdPost } = await queryFulfilled;
-          const patchResult = dispatch(
-            authApi.util.upsertQueryData('getWardData', data, createdPost)
-          )
-        } catch (error) {
-          console.error("Error in onQueryStarted:", error);
-        }
-      },
+      // async onQueryStarted(data, { dispatch, queryFulfilled }) {
+      //   try {
+      //     const { data: createdPost } = await queryFulfilled;
+      //     const patchResult = dispatch(
+      //       authApi.util.upsertQueryData('getWardData', data, createdPost)
+      //     )
+      //   } catch (error) {
+      //     console.error("Error in onQueryStarted:", error);
+      //   }
+      // },
     }), 
     getWardData: build.query({
       query: ({ ward, page, perPage }) => ({
@@ -67,6 +67,35 @@ export const authApi = createApi({
         providesTags: ['Post'],
       }),
     }), 
+
+    getTaxRegister: build.query({
+      query: ({page,limit}) => ({
+        url: `/api/data/tax-register?page=${page}&limit=${limit}`,
+        method: 'GET',
+        providesTags: ['Post'],
+      }),
+
+
+    }),
+
+    getTaxRecipt: build.query({
+      query: ({sn}) => ({
+        url: `/api/data/recipt/${sn}`,
+        method: 'GET',
+        providesTags: ['Post'],
+      }),
+
+
+    }),
+    getMoneyRecipt: build.query({
+      query: () => ({
+        url: `/api/data/recipt`,
+        method: 'GET',
+        providesTags: ['Post'],
+      }),
+
+
+    }),
     
     singleDataUpdate: build.mutation({
       query: ({ data, id }) => ({
@@ -100,6 +129,6 @@ export const {
   useSingleDataUpdateMutation,
   useSingleDataDeleteMutation,
   getWardDataForCalculate,
-  useGetWardDataForCalculateQuery,
- 
+  useGetWardDataForCalculateQuery,useGetTaxRegisterQuery
+, useGetTaxReciptQuery , useGetMoneyReciptQuery
 } = authApi;

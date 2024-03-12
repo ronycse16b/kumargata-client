@@ -61,7 +61,7 @@ export default function AddDataFrom() {
         setIsSaving(false);
         
         // Reset the entire form
-        // reset();
+        reset();
       } else {
         toast.error(res.error.data?.message);
         setIsSaving(false);
@@ -454,7 +454,7 @@ export default function AddDataFrom() {
                 </div>
               </div>
 
-              <div className=" sm:max-w-5xl px-12 mt-6 mx-auto flex justify-end mb-5   ">
+              <div className=" sm:max-w-[1000px] px-12 mt-6 mx-auto flex justify-end mb-5   ">
                 <button
                   className=" btn btn-success   rounded-md py-2 text-white  "
                   disabled={isSaving}
@@ -468,7 +468,7 @@ export default function AddDataFrom() {
                       Saving ...
                     </span>
                   ) : (
-                    "Save Assessment "
+                    <><span className="uppercase">Save Assessment</span></>
                   )}
                 </button>
               </div>

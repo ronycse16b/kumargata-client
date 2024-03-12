@@ -90,25 +90,25 @@ const DataDetails = ({ data, index, refetch,refetchCalculateData }) => {
   return (
     <>
        
-      <tr className="border-b border-gray-400   ">
-        <td className="border-b border-gray-400 ">{convertToBengaliNumber(index + 1 || 0)}</td>
-        <td className="border-b border-gray-400 ">
+      <tr className="border border-gray-400   ">
+        <td className="border border-gray-400 ">{convertToBengaliNumber(index + 1 || 0)}</td>
+        <td className="border border-gray-400 ">
           {data?.holding }
         </td>
-        <td className="border-b border-gray-400 ">{convertToBengaliNumber(data?.ward || 0)}</td>
-        <td className="border-b border-gray-400 ">{data?.name}</td>
-        <td className="border-b border-gray-400 ">{data?.fatherName ? data?.fatherName : "-"}</td>
-        <td className="border-b border-gray-400 ">{convertToBengaliNumber(data?.mobile ? '0' + data?.mobile : '-' || 0)}</td>
-        <td className="border-b border-gray-400 ">{data?.villageName}</td>
-        <td className="border-b border-gray-400 ">{convertToBengaliNumber(data?.male ? data?.male : '-' || 0)}</td>
-        <td className="border-b border-gray-400 ">{convertToBengaliNumber(data?.female ? data?.female : '-' || 0)}</td>
+        <td className="border border-gray-400 ">{convertToBengaliNumber(data?.ward || 0)}</td>
+        <td className="border border-gray-400 ">{data?.name}</td>
+        <td className="border border-gray-400 ">{data?.fatherName ? data?.fatherName : "-"}</td>
+        <td className="border border-gray-400 ">{convertToBengaliNumber(data?.mobile ? '0' + data?.mobile : '-' || 0)}</td>
+        <td className="border border-gray-400 ">{data?.villageName}</td>
+        <td className="border border-gray-400 ">{convertToBengaliNumber(data?.male ? data?.male : '-' || 0)}</td>
+        <td className="border border-gray-400 ">{convertToBengaliNumber(data?.female ? data?.female : '-' || 0)}</td>
 
-        <td className="border-b border-gray-400 ">{data?.house ? data?.house : '-'}</td>
-        <td className="border-b border-gray-400 ">{data?.profession ? data?.profession : '-'}</td>
-        <td className="border-b border-gray-400 ">{data?.houseName ? data?.houseName : '-'}</td>
-        <td className="border-b border-gray-400 ">{convertToBengaliNumber(data?.yearMullayon ? data?.yearMullayon : '-' || 0)}</td>
-        <td className="border-b border-gray-400 ">{convertToBengaliNumber(data?.due || 0)}</td>
-        <td className="border-b border-gray-400 ">{convertToBengaliNumber(data?.cor ? data?.cor : '-' || 0)}</td>
+        <td className="border border-gray-400 ">{data?.house ? data?.house : '-'}</td>
+        <td className="border border-gray-400 ">{data?.profession ? data?.profession : '-'}</td>
+        <td className="border border-gray-400 ">{data?.houseName ? data?.houseName : '-'}</td>
+        <td className="border border-gray-400 ">{convertToBengaliNumber(data?.yearMullayon ? data?.yearMullayon : '-' || 0)}</td>
+        <td className="border border-gray-400 ">{convertToBengaliNumber(data?.due || 0)}</td>
+        <td className="border border-gray-400 ">{convertToBengaliNumber(data?.cor ? data?.cor : '-' || 0)}</td>
 
         <td className="  flex items-center print:hidden">
           <Link
