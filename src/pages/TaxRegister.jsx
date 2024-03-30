@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
-import { FaCheck, FaPrint } from 'react-icons/fa';
+import { FaCheck, FaPrint, FaRegWindowClose, FaSearch } from 'react-icons/fa';
 import { useReactToPrint } from 'react-to-print';
 import convertToBengaliNumber from '../util/convertToBengaliNumber';
-import { useGetTaxReciptQuery, useGetTaxRegisterQuery } from '../features/api/authApi';
+import { useGetTaxRegisterQuery } from '../features/api/authApi';
 import Pagination from '../components/Pagination';
+import TaxRegisterTableData from './TaxRegisterTableData';
 
 const TaxRegister = () => {
 
@@ -14,7 +15,9 @@ const TaxRegister = () => {
   const [rowsPerPage, setRowsPerPage] = useState(initialPerPage);
   const { data, isLoading, refetch } = useGetTaxRegisterQuery({ page: currentPage, limit: rowsPerPage });
   const [sn, setSn] = useState(null)
+  const [searchResults, setSearchResults] = useState();
 
+  const [searchLoading, setSearchLoading] = useState(false);
 
 
   useEffect(() => {
@@ -47,53 +50,71 @@ const TaxRegister = () => {
   };
 
 
-  // const filteredData = data?.taxRegister?.filter((row) =>
-  //   Object.values(row).some(
-  //     (value) =>
-  //       typeof value === 'string' &&
-  //       value.toLowerCase().includes(searchTerm.toLowerCase())
-  //   )
-  // );
 
-  const { data: receptData, isFetching, refetch: snRefetch } = useGetTaxReciptQuery({ sn: sn })
+  const handleSearch = async (event) => {
+    event.preventDefault();
+    setSearchLoading(true);
 
-  const handleDownload = async (sn) => {
-    await setSn(sn)
+    const searchRegex = new RegExp(searchTerm, 'i'); // 'i' flag for case-insensitive search
 
-  }
+    const filterData = data?.taxRegister?.filter(item => {
+      // Filtering logic based on name, fatherName, holding, and mobile
+      return (
+        (item.name && (searchRegex.test(item.name) || item.name.includes(searchTerm)))
+      );
+    });
 
-  useEffect(() => {
-    snRefetch()
-  }, [sn, snRefetch])
+    setSearchResults(filterData);
+    setSearchLoading(false);
+  };
 
-  console.log(receptData);
+
 
   return (
-    <div className="container mx-auto p-4">
+    <div className=" mx-auto p-4">
 
 
 
 
       <div className="mb-4 flex justify-between items-center">
-        <input
-          type="text"
-          placeholder="Search"
-          className="appearance-none border border-gray-300 rounded py-2 h-8 px-4 focus:outline-none focus:border-blue-500"
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-
-        <div className="print:hidden hidden lg:block">
+        <form onSubmit={handleSearch} className="flex items-center gap-2 my-5">
+          <input
+            type="text"
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="name"
+            name="search"
+            className="flex-grow w-full h-8 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline "
+            required
+          />
           <button
-            className="flex items-center text-white btn btn-sm h-8 shadow-md bg-gradient-to-tr from-rose-600 to-rose-400 uppercase"
-            onClick={handlePrint}
+            type="submit"
+            className="flex items-center text-white btn btn-sm h-8 shadow-md bg-gradient-to-tr from-blue-600 to-blue-400"
           >
-            print now <FaPrint />
+            Search <FaSearch />
           </button>
-        </div>
+          {searchResults && <button
+            type="reset"
+            onClick={() => setSearchResults(null)}
+            className="flex items-center text-white btn btn-sm h-8 shadow-md bg-gradient-to-tr from-red-600 to-red-400"
+          >
+            Close search <FaRegWindowClose />
+          </button>}
+        </form>
+
+
+        {
+          data?.data?.length > 0 && <div className="print:hidden hidden lg:block">
+            <button
+              className="flex items-center text-white btn btn-sm h-8 shadow-md bg-gradient-to-tr from-rose-600 to-rose-400 uppercase"
+              onClick={handlePrint}
+            >
+              print now <FaPrint />
+            </button>
+          </div>
+        }
       </div>
 
-      <div ref={printRef}>
+      <div ref={printRef} className='overflow-auto' >
         <div className="text-center hidden print:block   print:mb-5 ">
           <h1 className="font-bold text-xl">১৪নং দৌলখাঁড় ইউনিয়ন পরিষদ</h1>
           <p className='text-xs'> ডাকঘরঃদৌলখাঁড় বাজার -৩৫৮০</p>
@@ -101,7 +122,14 @@ const TaxRegister = () => {
 
           <h1 className='font-semibold text-blue-800'>আদায় রেজিস্টার</h1>
         </div>
-        <table className="table table-sm  table-zebra p-2 ">
+        <span>
+          {
+            searchResults && <p className='bg-yellow-500 text-white font-bold px-2.5'> Search Result</p>
+          }
+        </span>
+        <table className="table table-sm overflow-x-auto   table-zebra p-2 ">
+
+
           <thead className="shadow-md bg-slate-500  text-white print:text-white   ">
             <tr className="">
               <th className="border ">ক্রমিক</th>
@@ -126,82 +154,45 @@ const TaxRegister = () => {
 
           </thead>
 
-          <tbody className="">
-            {data?.taxRegister ? (
-              <>
-                {isLoading ? (
-                  <div className="h-[80vh] flex items-center justify-center absolute left-1/2">
-                    <span className="loading loading-spinner text-red-600 font-bold loading-lg"></span>
-                  </div>
-                ) : data?.taxRegister?.length > 0 ? (
-                  data?.taxRegister?.map((row, index) => (
-                    <tr key={index}>
-                      <td className="border ">
-                        {convertToBengaliNumber(index + 1 || 0)}
-                      </td>
-                      <td className="border ">
-                        {convertToBengaliNumber(row?.holding || 0)}
-                      </td>
-                      <td className="border ">
-                        {row?.name}
-                      </td>
-                      <td className="border ">
-                        {row?.villageName ? row.villageName : '-'}
-                      </td>
-                      <td className="border ">
-                        {convertToBengaliNumber(row?.cor || 0)}
-                      </td>
-                      <td className='border'>
-                        <span className='text-green-700 font-bold'>{row?.checkbox?.[0]?.year ? <FaCheck /> : "-"}</span>
-                      </td>
-                      <td className='border'>
-                        <span className='text-green-700 font-bold'>{row?.checkbox?.[1]?.year ? <FaCheck /> : "-"}</span>
-                      </td>
-                      <td className='border'>
-                        <span className='text-green-700 font-bold'>{row?.checkbox?.[2]?.year ? <FaCheck /> : "-"}</span>
-                      </td>
-                      <td className='border'>
-                        <span className='text-green-700 font-bold'>{row?.checkbox?.[3]?.year ? <FaCheck /> : "-"}</span>
-                      </td>
-                      <td className='border'>
-                        <span className='text-green-700 font-bold'>{row?.checkbox?.[4]?.year ? <FaCheck /> : "-"}</span>
-                      </td>
-                      <td className='border'>
-                        <span className='text-green-700 font-bold'>{row?.checkbox?.[5]?.year ? <FaCheck /> : "-"}</span>
-                      </td>
-                      <td className='border'>
-                        <span className='text-green-700 font-bold'>{row?.checkbox?.[6]?.year ? <FaCheck /> : "-"}</span>
-                      </td>
-                      <td className='border'>
-                        <span className='text-green-700 font-bold'>{row?.checkbox?.[7]?.year ? <FaCheck /> : "-"}</span>
-                      </td>
-                      <td className='border'>
-                        <span className='text-green-700 font-bold'>{row?.checkbox?.[8]?.year ? <FaCheck /> : "-"}</span>
-                      </td>
-                      <td className='border'>
-                        <span className='text-green-700 font-bold'>{row?.checkbox?.[9]?.year ? <FaCheck /> : "-"}</span>
-                      </td>
-                      <td className="border ">
-                        {convertToBengaliNumber(row?.due || 0)}
-                      </td>
-                      
+          <tbody className=" overflow-hidden">
 
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="number of columns">No data found</td>
-                  </tr>
-                )}
-              </>
-            ) : (
-              <tr>
-                <td colSpan="number of columns">Loading...</td>
-              </tr>
-            )}
+
+
+            {
+              searchLoading &&
+              <div className="h-[80vh] flex items-center justify-center absolute left-1/2">
+                <span className="loading loading-spinner text-red-600 font-bold loading-lg"></span>
+              </div>
+
+            }
+
+            {searchResults ?
+
+
+              searchResults?.map((data, index) =>
+                <TaxRegisterTableData key={index} data={data} index={index} />
+
+              ) :
+              data?.taxRegister && (
+
+                data?.taxRegister?.map((data, index) => (
+                  <TaxRegisterTableData key={index} data={data} index={index} />
+                ))
+              )
+
+
+
+            }
+
           </tbody>
 
         </table>
+        {
+          (searchResults?.length === 0 || data?.taxRegister?.length === 0) && (
+            <p className="text-red-600 font-bold">No Data Found</p>
+          )
+        }
+
       </div>
       <div className="items-center space-y-2 text-xs sm:space-y-0 sm:space-x-3 flex pb-12 lg:pb-0 mt-4 ">
         <span className="block ">
