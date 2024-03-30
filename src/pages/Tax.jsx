@@ -10,9 +10,14 @@ import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import convertToBengaliNumber from "../util/convertToBengaliNumber";
 import { paymentFulfilled, paymentRejected, paymentStarted } from "../features/payments/tax.payment.slice";
+import { useAddTaxDataMutation, useGetAllDataQuery, useGetMoneyReciptQuery } from "../features/api/authApi";
+import SmallLoader from "../components/SmallLoader";
 
 
 export default function Tax() {
+
+  const { refetch: getAllRefatch } = useGetAllDataQuery();
+  const { refetch } = useGetMoneyReciptQuery();
   const { ward } = useSelector((state) => state.ward);
   const [wardId, setWardId] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
@@ -44,6 +49,9 @@ export default function Tax() {
 
     setSelectedYears(updatedYears);
   };
+
+  const [AddTaxData, { isSuccess, isLoading, isError }] = useAddTaxDataMutation();
+
 
   const TotalCorAmount =
     searchResults?.data?.cor * selectedYears?.length + searchResults?.data?.due;
@@ -123,10 +131,12 @@ export default function Tax() {
       };
 
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/data/tax-pay`,
-        newData
-      );
+      const response = await AddTaxData(newData);
+
+      // const response = await axios.post(
+      //   `${import.meta.env.VITE_SERVER_URL}/api/data/tax-pay`,
+      //   newData
+      // );
 
 
 
@@ -154,6 +164,8 @@ export default function Tax() {
 
         // Call GenerateQRCode and wait for it to complete
         await GenerateQRCode(SerialNo);
+        // getAllRefatch();
+        // refetch();
       }
     } catch (error) {
       console.error("Payment error:", error);
@@ -165,17 +177,19 @@ export default function Tax() {
 
   return (
     <>
-    
-      <div className="sm:px-2 sm:mt-5  relative  ">
+
+      <div className=" sm:mt-10 mt-5 relative  ">
+        {
+          isError && <span className="bg-yellow-500 text-white font-bold ">{isError}</span>
+        }
+
         {loading ? (
-          <div className="h-[80vh] flex items-center justify-center absolute left-1/2">
-            <h1 className="text-red-600 animate-pulse font-bold ">Payment Processing... </h1>
-          </div>
+          <SmallLoader title='Payment Processing...' />
         ) : (
           <>
             <form
               onSubmit={handleSubmit(handelSearch)}
-              className="flex flex-col lg:flex-row gap-2 max-w-[360px] sm: lg:max-w-[800px] items-center w-full print:hidden sm:px-5"
+              className="flex flex-col lg:flex-row gap-2 max-w-[360px] sm: lg:max-w-[800px] items-center w-full print:hidden "
             >
               <div className="lg:w-1/2 w-full ">
                 <select
@@ -224,9 +238,7 @@ export default function Tax() {
             </form>
 
             {searchLoading ? (
-              <div className="h-[80vh] flex items-center justify-center absolute left-1/2">
-                <span className="loading loading-spinner text-red-600 font-bold loading-lg"></span>
-              </div>
+              <SmallLoader title='Please Wait...' />
             ) : (
               searchResults?.data && (
                 <section className="text-gray-600 body-font sm:border     sm:px-5 mt-5  border-base-100 rounded-md relative print:hidden">
@@ -395,7 +407,7 @@ export default function Tax() {
                                       htmlFor="email"
                                       className="leading-7 text-sm text-gray-600"
                                     >
-                                      ধার্যকৃত কর বছরঃ
+                                      ধার্যকৃত কর বছরঃ(!select first)
                                     </label>
                                     <div className="grid  grid-cols-2 lg:grid-cols-3">
                                       {checkbox?.map((cb) => (
@@ -534,7 +546,7 @@ export default function Tax() {
                               CANCEL
                             </button>
                             <button
-                              disabled={selectedYears.length === 0}
+                              disabled={selectedYears.length < !0}
                               className="flex btn btn-info uppercase"
                             >
                               Payment now
@@ -580,15 +592,15 @@ export default function Tax() {
                   <div className="">
                     <ul className="flex font-normal ga items-center justify-evenly text-sm list-none">
                       <li>
-                        <h1>SN#</h1>
+                        <h1>invoice#</h1>
                         <h1>হোল্ডিং #</h1>
                         <h1>ওয়ার্ড #</h1>
                         <h1> নামঃ</h1>
-                        <h1>পিতা / স্বামীর নামঃ</h1>
+                        {/* <h1>পিতা / স্বামীর নামঃ</h1>
 
                         <h1>মোবাইলঃ</h1>
                         <h1>গ্রামঃ</h1>
-                        <h1>বাড়ির নামঃ</h1>
+                        <h1>বাড়ির নামঃ</h1> */}
                         <h1>সর্বমোট কর আদায়</h1>
                         <h1>বকেয়া</h1>
                         <h1>অর্থবছরঃ</h1>
@@ -607,7 +619,7 @@ export default function Tax() {
                             </h1>
                             <h1>{payment?.data?.taxPayment?.ward}</h1>
                             <h1>{payment?.data?.taxPayment?.name}</h1>
-                            <h1>{payment?.data?.taxPayment?.fatherName}</h1>
+                            {/* <h1>{payment?.data?.taxPayment?.fatherName}</h1>
 
                             <h1>
                               ০
@@ -616,7 +628,7 @@ export default function Tax() {
                               )}
                             </h1>
                             <h1>{payment?.data?.taxPayment?.villageName}</h1>
-                            <h1>{payment?.data?.taxPayment?.houseName}</h1>
+                            <h1>{payment?.data?.taxPayment?.houseName}</h1> */}
                             <h1>
                               {convertToBengaliNumber(
                                 payment?.data?.taxPayment?.total || 0
