@@ -1,4 +1,4 @@
-import {createBrowserRouter} from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import Root from '../layout/Root';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -17,6 +17,9 @@ import PaymentPrint from '../pages/PaymentPrint';
 import TaxRegister from '../pages/TaxRegister';
 import Table from '../components/Table';
 import PaymentHistory from '../components/PaymentHistory';
+import AllUsers from '../pages/AllUsers';
+import Profile from '../pages/Profile';
+import ForgotPassword from '../pages/ForgotPassword';
 
 
 
@@ -25,85 +28,106 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <ProtectedRoute> <Root /></ProtectedRoute>,
-    errorElement:<NotFound/>,
+    errorElement: <NotFound />,
     children: [
       {
-        index:true,
+        index: true,
         element: <ProtectedRoute><Home /></ProtectedRoute>,
-        
+
       },
       {
-        name:"home",
+        name: "home",
         path: "/home",
         element: <Home />,
-        
+
       },
       {
-        name:"application-form",
+        name: "application-form",
         path: "/application-form",
         element: <AddDataFrom />,
-        
+
       },
       {
-        name:"data-by-ward",
+        name: "data-by-ward",
         path: "/data-by-ward/:id",
         element: <AssesmentTable />,
-        
+
       },
       {
-        name:"per-holding-details",
+        name: "per-holding-details",
         path: "/details/:id",
         element: <PerHoldingDetails />,
-        
+
       },
       {
-        name:"update",
+        name: "update",
         path: "/update/:id",
         element: <UpdateData />,
-        
+
       },
       {
-        name:"Holding ",
+        name: "Holding ",
         path: "/holding-check",
         element: <HoldingAndTaxCheck />,
-        
+
       },
       {
-        name:"Tax ",
+        name: "Tax ",
         path: "/tax",
         element: <Tax />,
-        
+
       },
       {
-        name:"Payment",
+        name: "Profile ",
+        path: "/profile",
+        element: <Profile />,
+      },
+
+      {
+        name: "Tax ",
+        path: "/tax",
+        element: <Tax />,
+
+      },
+      {
+        name: "Payment",
         path: "/payment-print",
         element: <PaymentPrint />,
-        
+
       },
       {
-        name:"Payment Register",
+        name: "Payment Register",
         path: "/tax-register",
         element: <TaxRegister />,
-        
+
       },
       {
-        name:"Payment Register",
+        name: "Payment Register",
         path: "/payment-recipt",
         element: <PaymentHistory />,
-        
+
+      },
+      {
+        name: "All Users",
+        path: "/all-users",
+        element: <AllUsers />,
+
       },
     ],
   },
 
   {
     path: "/login",
-    element:<Login />,
+    element: <Login />,
   },
   {
     path: "/register",
-    element:<Register />,
+    element: <Register />,
   },
- 
- 
+  {
+    path: "/forgot",
+    element: <ForgotPassword />,
+  },
+
+
 ]);
-       
