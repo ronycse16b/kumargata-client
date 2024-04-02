@@ -5,8 +5,17 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'gradient': 'linear-gradient(to top left, #48BB78, #38B2AC, #4299E1)',
+      },
+    },
   },
+
+  plugins: [
+    require('daisyui'),
+    require('tailwind-scrollbar-hide'),
+  ],
 
   daisyui: {
     themes: [
@@ -23,9 +32,4 @@ export default {
       "cupcake",
     ],
   },
-
-  plugins: [
-    require('daisyui'),
-    require('tailwind-scrollbar-hide'),
-  ],
 }

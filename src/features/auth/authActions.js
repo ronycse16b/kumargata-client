@@ -25,8 +25,7 @@ export const userLogin = createAsyncThunk(
 
       return data
     } catch (error) {
-      // return custom error message from API if any
-      console.log(error);
+
       if (error.response && error.response.data) {
         return rejectWithValue(error.response.data.message)
       } else {

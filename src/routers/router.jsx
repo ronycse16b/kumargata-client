@@ -19,7 +19,8 @@ import Table from '../components/Table';
 import PaymentHistory from '../components/PaymentHistory';
 import AllUsers from '../pages/AllUsers';
 import Profile from '../pages/Profile';
-import ForgotPassword from '../pages/ForgotPassword';
+import RequestForgotPassword from '../pages/RequestForgotPassword';
+import PasswordReset from '../pages/PasswordReset';
 
 
 
@@ -126,7 +127,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/forgot",
-    element: <ForgotPassword />,
+    element: <RequestForgotPassword />,
+  },
+  {
+    path: "/password-reset",
+    element: <PasswordReset />,
   },
 
 

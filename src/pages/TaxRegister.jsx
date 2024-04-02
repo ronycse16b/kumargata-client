@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import DataTable from 'react-data-table-component';
-import { FaCheck, FaPrint, FaRegWindowClose, FaSearch } from 'react-icons/fa';
-import { useReactToPrint } from 'react-to-print';
-import convertToBengaliNumber from '../util/convertToBengaliNumber';
-import { useGetTaxRegisterQuery } from '../features/api/authApi';
-import Pagination from '../components/Pagination';
-import TaxRegisterTableData from './TaxRegisterTableData';
+import React, { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import { FaCheck, FaPrint, FaRegWindowClose, FaSearch } from "react-icons/fa";
+import { useReactToPrint } from "react-to-print";
+import convertToBengaliNumber from "../util/convertToBengaliNumber";
+import { useGetTaxRegisterQuery } from "../features/api/authApi";
+import Pagination from "../components/Pagination";
+import TaxRegisterTableData from "./TaxRegisterTableData";
 
 const TaxRegister = () => {
-
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const initialPerPage = parseInt(localStorage.getItem('rowsPerPage')) || 5; // Parse the stored value to a number
+  const initialPerPage = parseInt(localStorage.getItem("rowsPerPage")) || 5; // Parse the stored value to a number
   const [rowsPerPage, setRowsPerPage] = useState(initialPerPage);
-  const { data, isLoading, refetch } = useGetTaxRegisterQuery({ page: currentPage, limit: rowsPerPage });
-  const [sn, setSn] = useState(null)
+  const { data, isLoading, refetch } = useGetTaxRegisterQuery({
+    page: currentPage,
+    limit: rowsPerPage,
+  });
+  const [sn, setSn] = useState(null);
   const [searchResults, setSearchResults] = useState();
 
   const [searchLoading, setSearchLoading] = useState(false);
-
 
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, refetch]);
 
   useEffect(() => {
-    localStorage.setItem('rowsPerPage', rowsPerPage.toString()); // Convert rowsPerPage to string when storing it
+    localStorage.setItem("rowsPerPage", rowsPerPage.toString()); // Convert rowsPerPage to string when storing it
   }, [rowsPerPage]);
 
   const printRef = React.useRef();
@@ -46,21 +47,19 @@ const TaxRegister = () => {
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
     refetch();
-
   };
-
-
 
   const handleSearch = async (event) => {
     event.preventDefault();
     setSearchLoading(true);
 
-    const searchRegex = new RegExp(searchTerm, 'i'); // 'i' flag for case-insensitive search
+    const searchRegex = new RegExp(searchTerm, "i"); // 'i' flag for case-insensitive search
 
-    const filterData = data?.taxRegister?.filter(item => {
+    const filterData = data?.taxRegister?.filter((item) => {
       // Filtering logic based on name, fatherName, holding, and mobile
       return (
-        (item.name && (searchRegex.test(item.name) || item.name.includes(searchTerm)))
+        item.name &&
+        (searchRegex.test(item.name) || item.name.includes(searchTerm))
       );
     });
 
@@ -68,13 +67,11 @@ const TaxRegister = () => {
     setSearchLoading(false);
   };
 
-
-
   return (
-    <div className=" mx-auto p-4">
-
-
-
+    <div className=" mx-auto mt-5">
+      <div className="  mb-3  text-green-600 font-bold   ">
+        <h6 className="underline">ট্যাক্স রেজিস্টার</h6>
+      </div>
 
       <div className="mb-4 flex justify-between items-center">
         <form onSubmit={handleSearch} className="flex items-center gap-2 my-5">
@@ -92,18 +89,19 @@ const TaxRegister = () => {
           >
             Search <FaSearch />
           </button>
-          {searchResults && <button
-            type="reset"
-            onClick={() => setSearchResults(null)}
-            className="flex items-center text-white btn btn-sm h-8 shadow-md bg-gradient-to-tr from-red-600 to-red-400"
-          >
-            Close search <FaRegWindowClose />
-          </button>}
+          {searchResults && (
+            <button
+              type="reset"
+              onClick={() => setSearchResults(null)}
+              className="flex items-center text-white btn btn-sm h-8 shadow-md bg-gradient-to-tr from-red-600 to-red-400"
+            >
+              Close search <FaRegWindowClose />
+            </button>
+          )}
         </form>
 
-
-        {
-          data?.data?.length > 0 && <div className="print:hidden hidden lg:block">
+        {data?.data?.length > 0 && (
+          <div className="print:hidden hidden lg:block">
             <button
               className="flex items-center text-white btn btn-sm h-8 shadow-md bg-gradient-to-tr from-rose-600 to-rose-400 uppercase"
               onClick={handlePrint}
@@ -111,25 +109,26 @@ const TaxRegister = () => {
               print now <FaPrint />
             </button>
           </div>
-        }
+        )}
       </div>
 
-      <div ref={printRef} className='overflow-auto' >
+      <div ref={printRef} className="overflow-auto">
         <div className="text-center hidden print:block   print:mb-5 ">
           <h1 className="font-bold text-xl">১৪নং দৌলখাঁড় ইউনিয়ন পরিষদ</h1>
-          <p className='text-xs'> ডাকঘরঃদৌলখাঁড় বাজার -৩৫৮০</p>
-          <p className='text-xs'> উপজেলাঃনাঙ্গলকোট  জেলাঃকুমিল্লা</p>
+          <p className="text-xs"> ডাকঘরঃদৌলখাঁড় বাজার -৩৫৮০</p>
+          <p className="text-xs"> উপজেলাঃনাঙ্গলকোট জেলাঃকুমিল্লা</p>
 
-          <h1 className='font-semibold text-blue-800'>আদায় রেজিস্টার</h1>
+          <h1 className="font-semibold text-blue-800">আদায় রেজিস্টার</h1>
         </div>
         <span>
-          {
-            searchResults && <p className='bg-yellow-500 text-white font-bold px-2.5'> Search Result</p>
-          }
+          {searchResults && (
+            <p className="bg-yellow-500 text-white font-bold px-2.5">
+              {" "}
+              Search Result
+            </p>
+          )}
         </span>
         <table className="table table-sm overflow-x-auto   table-zebra p-2 ">
-
-
           <thead className="shadow-md bg-slate-500  text-white print:text-white   ">
             <tr className="">
               <th className="border ">ক্রমিক</th>
@@ -149,50 +148,29 @@ const TaxRegister = () => {
               <th className="border ">২০৩১-৩২</th>
 
               <th className="">বকেয়াঃ</th>
-
             </tr>
-
           </thead>
 
           <tbody className=" overflow-hidden">
-
-
-
-            {
-              searchLoading &&
+            {searchLoading && (
               <div className="h-[80vh] flex items-center justify-center absolute left-1/2">
                 <span className="loading loading-spinner text-red-600 font-bold loading-lg"></span>
               </div>
+            )}
 
-            }
-
-            {searchResults ?
-
-
-              searchResults?.map((data, index) =>
-                <TaxRegisterTableData key={index} data={data} index={index} />
-
-              ) :
-              data?.taxRegister && (
-
-                data?.taxRegister?.map((data, index) => (
+            {searchResults
+              ? searchResults?.map((data, index) => (
                   <TaxRegisterTableData key={index} data={data} index={index} />
                 ))
-              )
-
-
-
-            }
-
+              : data?.taxRegister &&
+                data?.taxRegister?.map((data, index) => (
+                  <TaxRegisterTableData key={index} data={data} index={index} />
+                ))}
           </tbody>
-
         </table>
-        {
-          (searchResults?.length === 0 || data?.taxRegister?.length === 0) && (
-            <p className="text-red-600 font-bold">No Data Found</p>
-          )
-        }
-
+        {(searchResults?.length === 0 || data?.taxRegister?.length === 0) && (
+          <p className="text-red-600 font-bold">No Data Found</p>
+        )}
       </div>
       <div className="items-center space-y-2 text-xs sm:space-y-0 sm:space-x-3 flex pb-12 lg:pb-0 mt-4 ">
         <span className="block ">
@@ -242,7 +220,6 @@ const TaxRegister = () => {
             onChange={(e) => setRowsPerPage(e.target.value)}
             className="select  select-xs w-full max-w-[80px] border border-gray-400"
           >
-
             <option value={5}>05</option>
             <option value={10}>10</option>
             <option value={15}>15</option>
@@ -258,11 +235,6 @@ const TaxRegister = () => {
           </select>
         </div>
       </div>
-
-
-
-
-
     </div>
   );
 };

@@ -9,7 +9,7 @@ import { setCredentials, toggleLoading, } from './features/auth/authSlice';
 import { useGetDetailsQuery } from './features/api/authApi';
 import Loader from './components/Loader';
 import { ward } from './features/ward/ward.slice';
-import InvoiceGenerator from './components/InvoiceGenerator';
+
 
 
 
@@ -19,9 +19,7 @@ function App() {
 
   // automatically authenticate user if token is found
   // automatically authenticate user if token is found
-  const { data, isFetching } = useGetDetailsQuery('userDetails', {
-    pollingInterval: 900000, // 15mins
-  })
+  const { data, isFetching, } = useGetDetailsQuery();
 
  
   useEffect(() => {
@@ -40,7 +38,7 @@ function App() {
 
   return (
     <div >
-      <div>
+      <div className=''>
         <RouterProvider router={router}>
         </RouterProvider>
       </div>

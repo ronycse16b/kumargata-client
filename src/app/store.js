@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authReducer from '../features/auth/authSlice'
 import { authApi } from '../features/api/authApi'
-import wardSlice from '../features/ward/ward.slice'
+import authReducer from '../features/auth/authSlice'
 import taxPaymentSlice from '../features/payments/tax.payment.slice'
+import wardSlice from '../features/ward/ward.slice'
 
 const store = configureStore({
   reducer: {

@@ -11,12 +11,13 @@ export const authApi = createApi({
       }
     },
   }),
-  tagTypes: ['Post'],
+  tagTypes: ['get','User'],
   endpoints: (build) => ({
     getDetails: build.query({
       query: () => ({
         url: 'api/user/profile',
         method: 'GET',
+        
       }),
     }),
     getVillage: build.query({
@@ -24,77 +25,116 @@ export const authApi = createApi({
         url: `/api/data/villageByWard/${ward}`,
         method: 'GET',
       }),
+      providesTags: ['get'],
     }),
     getSingleDetails: build.query({
       query: ({ id }) => ({
         url: `/api/data/single-details/${id}`,
         method: 'GET',
       }),
+      providesTags: ['get'],
+   
+    }),
+
+    getAllData: build.query({
+      query: () => ({
+        url: `/api/data/all-data`,
+        method: 'GET',
+      }),
+      providesTags: ['get'],
+     
+
     }),
    
-    postApplicationData: build.mutation({
-      query: (data) => ({
-        url: `/api/data/post-data`,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: data,
-      }),
-      // async onQueryStarted(data, { dispatch, queryFulfilled }) {
-      //   try {
-      //     const { data: createdPost } = await queryFulfilled;
-      //     const patchResult = dispatch(
-      //       authApi.util.upsertQueryData('getWardData', data, createdPost)
-      //     )
-      //   } catch (error) {
-      //     console.error("Error in onQueryStarted:", error);
-      //   }
-      // },
-    }), 
+
+    
+    
+    
     getWardData: build.query({
       query: ({ ward, page, perPage }) => ({
         url: `/api/data/ward-data/${ward}?page=${page}&perPage=${perPage}`,
         method: 'GET',
-        providesTags: ['Post'],
       }),
+      providesTags: ['get'],
+   
     }), 
+ 
 
     getWardDataForCalculate: build.query({
       query: ({ward}) => ({
         url: `/api/data/ward-data-calculate/${ward}`,
         method: 'GET',
-        providesTags: ['Post'],
+        
       }),
+      providesTags: ['get'],
+     
     }), 
 
     getTaxRegister: build.query({
       query: ({page,limit}) => ({
         url: `/api/data/tax-register?page=${page}&limit=${limit}`,
         method: 'GET',
-        providesTags: ['Post'],
+        
       }),
-
+      
+      providesTags: ['get'],
 
     }),
 
-    getTaxRecipt: build.query({
-      query: ({sn}) => ({
-        url: `/api/data/recipt/${sn}`,
+    getSingleTaxRecipt: build.query({
+      query: ({id}) => ({
+        url: `/api/data/recipt/${id}`,
         method: 'GET',
-        providesTags: ['Post'],
       }),
-
+      
+      providesTags: ['get'],
 
     }),
     getMoneyRecipt: build.query({
       query: () => ({
         url: `/api/data/recipt`,
         method: 'GET',
-        providesTags: ['Post'],
+        
       }),
+      
+      providesTags: ['get'],
+      
+    }),
 
+    getAllUsers: build.query({
+      query: () => ({
+        url: `/api/user/all-users`,
+        method: 'GET',
+        
+      }),
+      
+      providesTags: ['User'],
+      
+    }),
 
+    
+    postApplicationData: build.mutation({
+      query: (data) => ({
+        url: `/api/data/post-data`,
+        headers: {
+          'Content-Type':'application/json',
+        },
+        method: 'POST',
+        body: data,
+      }),
+     invalidatesTags: ['get']
+    }),
+    
+    AddTaxData: build.mutation({
+      query: (data) => ({
+        url: `/api/data/tax-pay`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: data,
+      }),
+     invalidatesTags: ['get']
     }),
     
     singleDataUpdate: build.mutation({
@@ -102,33 +142,107 @@ export const authApi = createApi({
         url: `/api/data/update-data/${id}`,
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type':'application/json',
         },
-        body: data,
+        body:data,
       }),
+       
+      invalidatesTags:['get']
+
     }),
+    userUpdate: build.mutation({
+      query: ({id,...data }) => ({
+        url: `/api/user/update/${id}`,
+        method: 'PUT',
+        headers: {
+          'Content-Type':'application/json',
+        },
+        body:data,
+      }),
+       
+      invalidatesTags:['User']
+
+    }),
+    userProfileUpdate: build.mutation({
+      query: ({email,...data }) => ({
+        url: `/api/user/profile-update?email=${email}`,
+        method: 'PUT',
+        headers: {
+          'Content-Type':'application/json',
+        },
+        body:data,
+      }),
+       
+      invalidatesTags:['User']
+
+    }),
+    updateAvatar: build.mutation({
+      query: ({...avatar}) => ({
+        url: '/api/user/avatar',
+        method: 'PUT',
+     
+        body: avatar,
+      }),
+      invalidatesTags: ['User'],
+    }),
+
+    requestPasswordReset: build.mutation({
+      query: ({ email }) => ({
+        url: `/api/user/request-password?email=${email}`,
+        method: 'POST',
+      }),
+      providesTags: ['User'],
+   
+    }), 
+
+    passwordReset: build.mutation({
+      query: ({ email,pin,password }) => ({
+        url: `/api/user/reset-password?email=${email}&&pin=${pin}&password=${password}`,
+        method: 'POST',
+      }),
+      providesTags: ['User'],
+   
+    }), 
+
+
     singleDataDelete: build.mutation({
       query: ({ id }) => ({
         url: `/api/data/delete-data/${id}`,
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type':'application/json',
         },
       }),
+      invalidatesTags: ['get'] // Specify which cached data should be invalidated after deletion
     }),
+
+    userDelete: build.mutation({
+      query: ({ id }) => ({
+        url: `/api/user/delete/${id}`,
+        method: 'DELETE',
+        headers: {
+          'Content-Type':'application/json',
+        },
+        
+      }),
+       
+      invalidatesTags:['User']
+
+    }),
+    
   }),
 });
 
 // Export react hook
 export const {
-  useGetDetailsQuery,
+  useGetDetailsQuery,useUserProfileUpdateMutation,
   useGetVillageQuery,
-  usePostApplicationDataMutation,
+  usePostApplicationDataMutation,useRequestPasswordResetMutation,usePasswordResetMutation,
   useGetWardDataQuery,
   useGetSingleDetailsQuery,
   useSingleDataUpdateMutation,
   useSingleDataDeleteMutation,
   getWardDataForCalculate,
   useGetWardDataForCalculateQuery,useGetTaxRegisterQuery
-, useGetTaxReciptQuery , useGetMoneyReciptQuery
+, useGetSingleTaxReciptQuery , useGetMoneyReciptQuery,useGetAllDataQuery,useAddTaxDataMutation,useGetAllUsersQuery,useUserDeleteMutation,useUserUpdateMutation,
 } = authApi;

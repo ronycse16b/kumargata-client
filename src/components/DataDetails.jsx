@@ -10,7 +10,7 @@ import {
   FaTrashAlt,
   FaUserEdit,
 } from "react-icons/fa";
-import { useSingleDataDeleteMutation } from "../features/api/authApi";
+import { useGetAllDataQuery, useSingleDataDeleteMutation } from "../features/api/authApi";
 import { useState } from "react";
 import QRCode from "qrcode";
 import { useSelector } from "react-redux";
@@ -19,8 +19,9 @@ import { useSelector } from "react-redux";
 
 const DataDetails = ({ data, index, refetch,refetchCalculateData }) => {
 
+  // const { refetch:getAllRefatch } = useGetAllDataQuery();
   const [loading, setLoading] = useState(false);
-  // const { currentUser } = useSelector((state) => state.user);
+  const { userInfo } = useSelector((state) => state.auth);
 
   const GenerateQRCode = async (data) => {
     setLoading(true);
@@ -72,8 +73,9 @@ const DataDetails = ({ data, index, refetch,refetchCalculateData }) => {
           icon: "success"
         });
         // Refetch data after deletion
-        refetch();
-        refetchCalculateData()
+        // refetch();
+        // getAllRefatch();
+        // refetchCalculateData()
       }
     } catch (error) {
       console.error("Failed to delete data:", error);
@@ -125,13 +127,15 @@ const DataDetails = ({ data, index, refetch,refetchCalculateData }) => {
             >
               <FaEdit />
             </Link>
-            <a
-              href="#"
-              onClick={() => handelDelete(data)}
-              className=" bg-red-500  btn btn-xs  text-white hover:shadow-lg text-xs font-thin"
-            >
-              <FaTrashAlt />
-            </a>
+           {
+               userInfo?.role === "admin" &&  <a
+               href="#"
+               onClick={() => handelDelete(data)}
+               className=" bg-red-500  btn btn-xs  text-white hover:shadow-lg text-xs font-thin"
+             >
+               <FaTrashAlt />
+             </a>
+           }
             <a
               onClick={() => {
                 GenerateQRCode(data);

@@ -21,6 +21,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import DataDetails from "../components/DataDetails";
 import Loader from "../components/Loader";
 import { useGetWardDataForCalculateQuery, useGetWardDataQuery } from "../features/api/authApi";
+import SmallLoader from "../components/SmallLoader";
 
 export default function AllData() {
 
@@ -52,10 +53,10 @@ export default function AllData() {
 
 
     useEffect(() => {
-        refetch()
+
         setTotalPages(data?.totalPages)
         refetchCalculateData()
-    }, [data, id, refetch, refetchCalculateData]);
+    }, [data, id, refetchCalculateData]);
 
     const totalHolding = calculateData?.data?.reduce(
         (acc, currentValue) => {
@@ -125,59 +126,54 @@ export default function AllData() {
 
     return (
         <div>
-            <div className=" z-0 p-4   max-w-[375px] md:max-w-3xl   mt-5 mx-auto md:px-0 lg:pr-0 lg:mb-0 lg:mx-0  lg:max-w-full  xl:px-0 w-full ">
-                <div className="container  mx-auto  ">
+            <div className="  mb-3  text-green-600 font-bold mt-5  ">
+          <h6 className="underline">অ্যাসেসমেন্ট তালিকা </h6>
+        </div>
+            <div className=" z-0    max-w-[375px] md:max-w-3xl  mt-5 mx-auto md:px-0 lg:pr-0 lg:mb-0 lg:mx-0  lg:max-w-full  xl:px-0 w-full ">
+                <div className="  mx-auto   ">
 
-                    <div className="stats rounded-none border border-gray-300  gap-5 flex flex-col lg:flex-row shadow-sm">
-                        <div className="stat">
-                            <div className="stat-figure text-secondary">
-                                <FaUsers />
-                            </div>
-                            <div className="stat-title text-xs font-bold">মোট খানা</div>
+                    <div className=" rounded-none    gap-5 flex flex-col lg:flex-row shadow-sm">
+                        <div className=" card w-[600px] h-20 p-5 rounded-md bg-rose-600 text-white glass">
+                           
+                            <div className="stat-title text-xs font-bold text-white">মোট খানা</div>
                             <div className="stat-value text-xs">
                                 {isLoadingCalculateData ? (
-                                    <div className="animate-spin border-rose-600 rounded-full border-4 border-dashed h-4 w-4"></div>
+                                    <span className=" animate-ping text-red-600 font-bold ">...</span>
                                 ) : (
-                                    <>{convertToBengaliNumber(calculateData?.data?.length || 0)}টি</>
+                                    <>{convertToBengaliNumber(calculateData?.data?.length.toLocaleString() || 0)}টি</>
                                 )}
                             </div>
                         </div>
-                        <div className="stat">
-                            <div className="stat-figure text-secondary">
-                                <FaDonate />
-                            </div>
-                            <div className="stat-title text-xs font-bold">মোট ধার্যকৃত কর</div>
+                        <div className=" card w-[600px] h-20 p-5 rounded-md bg-green-600 text-white glass">
+                           
+                            <div className="stat-title text-xs font-bold text-white">মোট ধার্যকৃত কর</div>
                             <div className="stat-value text-xs">
                                 {isLoadingCalculateData ? (
-                                    <div className="animate-spin border-rose-600 rounded-full border-4 border-dashed h-4 w-4"></div>
+                                    <span className=" animate-ping text-red-600 font-bold ">...</span>
                                 ) : (
-                                    <>{convertToBengaliNumber(totalHolding?.cor || 0)} টাকা</>
+                                    <>{convertToBengaliNumber(totalHolding?.cor.toLocaleString() || 0)} টাকা</>
                                 )}
                             </div>
                         </div>
-                        <div className="stat">
-                            <div className="stat-figure text-secondary">
-                                <FaHandHoldingUsd />
-                            </div>
-                            <div className="stat-title text-xs font-bold">মোট কর আদায় </div>
+                        <div className=" card w-[600px] h-20 p-5 rounded-md bg-blue-600 text-white glass">
+                           
+                            <div className="stat-title text-xs font-bold text-white">মোট কর আদায় </div>
                             <div className="stat-value text-xs">
                                 {isLoadingCalculateData ? (
-                                    <div className="animate-spin border-rose-600 rounded-full border-4 border-dashed h-4 w-4"></div>
+                                    <span className=" animate-ping text-red-600 font-bold ">...</span>
                                 ) : (
-                                    <>{convertToBengaliNumber(totalHolding?.total || 0)}টাকা</>
+                                    <>{convertToBengaliNumber(totalHolding?.total.toLocaleString() || 0)}টাকা</>
                                 )}
                             </div>
                         </div>
-                        <div className="stat">
-                            <div className="stat-figure text-secondary">
-                                <FaHourglassStart />
-                            </div>
-                            <div className="stat-title text-xs font-bold">মোট বকেয়া </div>
+                        <div className=" card w-[600px] h-20 p-5 rounded-md bg-yellow-600 text-white glass">
+                            
+                            <div className="stat-title text-xs font-bold text-white">মোট বকেয়া </div>
                             <div className="stat-value text-xs">
                                 {isLoadingCalculateData ? (
-                                    <div className="animate-spin border-rose-600 rounded-full border-4 border-dashed h-4 w-4"></div>
+                                    <span className=" animate-ping text-red-600 font-bold ">...</span>
                                 ) : (
-                                    <>{convertToBengaliNumber(totalHolding?.due || 0)} টাকা</>
+                                    <>{convertToBengaliNumber(totalHolding?.due.toLocaleString() || 0)} টাকা</>
                                 )}
                             </div>
                         </div>
@@ -187,7 +183,7 @@ export default function AllData() {
                     {/* <h3 className="text-xl font-bold py-2">{union}</h3> */}
                     <div className="flex flex-wrap xl:flex-nowrap gap-2 mt-6">
                         {loading ? (
-                            <span className="text-red-600 font-bold">Loading...</span>
+                            <SmallLoader title='Loading...' />
                         ) : (
                             <>
                                 {ward?.map((w) => (
@@ -231,14 +227,16 @@ export default function AllData() {
                             </button>}
                         </form>
 
-                        <div className=" print:hidden hidden lg:block">
-                            <button
-                                className="flex items-center text-white btn btn-sm h-8 shadow-md bg-gradient-to-tr from-rose-600 to-rose-400 uppercase"
-                                onClick={handlePrint}
-                            >
-                                print now <FaPrint />
-                            </button>
-                        </div>
+                        {
+                            data?.data?.length > 0 && <div className="print:hidden hidden lg:block">
+                                <button
+                                    className="flex items-center text-white btn btn-sm h-8 shadow-md bg-gradient-to-tr from-rose-600 to-rose-400 uppercase"
+                                    onClick={handlePrint}
+                                >
+                                    print now <FaPrint />
+                                </button>
+                            </div>
+                        }
                     </div>
                     {searchResults && (
                         <div className=" lg:text-sm bg-yellow-400 text-black font-bold">
@@ -246,7 +244,7 @@ export default function AllData() {
                         </div>
                     )}
                     {isLoading ? (
-                        <span className="text-red-600 font-bold">Loading...</span>
+                        <span className="text-red-600 font-bold animate-bounce">Loading...</span>
                     ) : (
                         <div
                             ref={componentRef}

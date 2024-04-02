@@ -9,13 +9,19 @@ import { toast } from "react-hot-toast";
 
 import { Link } from "react-router-dom";
 import convertToBengaliNumber from "../util/convertToBengaliNumber";
-import { paymentFulfilled, paymentRejected, paymentStarted } from "../features/payments/tax.payment.slice";
-import { useAddTaxDataMutation, useGetAllDataQuery, useGetMoneyReciptQuery } from "../features/api/authApi";
+import {
+  paymentFulfilled,
+  paymentRejected,
+  paymentStarted,
+} from "../features/payments/tax.payment.slice";
+import {
+  useAddTaxDataMutation,
+  useGetAllDataQuery,
+  useGetMoneyReciptQuery,
+} from "../features/api/authApi";
 import SmallLoader from "../components/SmallLoader";
 
-
 export default function Tax() {
-
   const { refetch: getAllRefatch } = useGetAllDataQuery();
   const { refetch } = useGetMoneyReciptQuery();
   const { ward } = useSelector((state) => state.ward);
@@ -28,8 +34,7 @@ export default function Tax() {
   const [selectedYears, setSelectedYears] = useState([]);
   const [payableAmount, setPayableAmount] = useState(0);
 
-
-  const [discountAmount, setDiscountAmount] = useState(0)
+  const [discountAmount, setDiscountAmount] = useState(0);
   const [year, setYear] = useState([]);
   const {
     register,
@@ -50,12 +55,11 @@ export default function Tax() {
     setSelectedYears(updatedYears);
   };
 
-  const [AddTaxData, { isSuccess, isLoading, isError }] = useAddTaxDataMutation();
-
+  const [AddTaxData, { isSuccess, isLoading, isError }] =
+    useAddTaxDataMutation();
 
   const TotalCorAmount =
     searchResults?.data?.cor * selectedYears?.length + searchResults?.data?.due;
-
 
   const inTotal = TotalCorAmount - discountAmount;
   const newDue = inTotal - payableAmount;
@@ -74,7 +78,8 @@ export default function Tax() {
       setSearchLoading(true);
 
       const res = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/data/search?wardNumber=${event.wardId
+        `${import.meta.env.VITE_SERVER_URL}/api/data/search?wardNumber=${
+          event.wardId
         }&&searchValue=${event?.holding}`
       );
 
@@ -104,7 +109,7 @@ export default function Tax() {
     event.preventDefault();
     try {
       // dispatch(paymentStarting());
-      dispatch(paymentStarted())
+      dispatch(paymentStarted());
 
       const name = event.target.name.value;
       const fatherName = event.target.fatherName.value;
@@ -130,15 +135,12 @@ export default function Tax() {
         discount: discountAmount,
       };
 
-
       const response = await AddTaxData(newData);
 
       // const response = await axios.post(
       //   `${import.meta.env.VITE_SERVER_URL}/api/data/tax-pay`,
       //   newData
       // );
-
-
 
       if (response?.data) {
         document.getElementById("my_modal_3").showModal();
@@ -150,10 +152,11 @@ export default function Tax() {
               width: 400,
               margin: 2,
             });
-            dispatch(paymentFulfilled({ data: response.data, generatedQR }))
+            dispatch(paymentFulfilled({ data: response.data, generatedQR }));
 
             await axios.put(
-              `${import.meta.env.VITE_SERVER_URL}/api/data/update-qr/${response?.data?.taxPayment?._id
+              `${import.meta.env.VITE_SERVER_URL}/api/data/update-qr/${
+                response?.data?.taxPayment?._id
               }`,
               { generatedQR }
             );
@@ -162,10 +165,7 @@ export default function Tax() {
           }
         };
 
-        // Call GenerateQRCode and wait for it to complete
         await GenerateQRCode(SerialNo);
-        // getAllRefatch();
-        // refetch();
       }
     } catch (error) {
       console.error("Payment error:", error);
@@ -174,17 +174,14 @@ export default function Tax() {
     }
   };
 
-
   return (
     <>
-
+      <div className="  mb-10  text-green-600 font-bold mt-5  ">
+        <h6 className="underline">কর আদায় </h6>
+      </div>
       <div className=" sm:mt-10 mt-5 relative  ">
-        {
-          isError && <span className="bg-yellow-500 text-white font-bold ">{isError}</span>
-        }
-
         {loading ? (
-          <SmallLoader title='Payment Processing...' />
+          <SmallLoader title="Payment Processing..." />
         ) : (
           <>
             <form
@@ -220,9 +217,9 @@ export default function Tax() {
                 <input
                   type="number"
                   {...register("holding", {
-                    required: " হোল্ডিং নাম্বার দিন ১,৫",
+                    required: " হোল্ডিং নাম্বার দিন ১",
                   })}
-                  placeholder="হোল্ডিং নাম্বার দিন ১,৫"
+                  placeholder="হোল্ডিং নাম্বার দিন"
                   className="flex-grow w-full h-8 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                 />
                 {errors.holding && (
@@ -238,19 +235,15 @@ export default function Tax() {
             </form>
 
             {searchLoading ? (
-              <SmallLoader title='Please Wait...' />
+              <SmallLoader title="Please Wait..." />
             ) : (
               searchResults?.data && (
-                <section className="text-gray-600 body-font sm:border     sm:px-5 mt-5  border-base-100 rounded-md relative print:hidden">
+                <section className="text-gray-600 body-font sm:border  border-white shadow-xl   sm:px-5 mt-5   rounded-md relative print:hidden">
                   <div className=" pt-6">
                     <div className="lg:w-full  flex flex-col md:w-2/3 ">
-                      <form
-                        onSubmit={onSubmitPayment}
-
-                      >
-                        <div className="flex flex-col lg:flex-row border gap-2 bg-gray-200 p-5 shadow-md">
+                      <form onSubmit={onSubmitPayment}>
+                        <div className="flex flex-col lg:flex-row border gap-2 bg-white p-5 shadow-md">
                           <div className="flex  gap-2  lg:w-1/2 w-full    ">
-
                             <div className=" w-1/2 ">
                               <div className="  w-full">
                                 <div className="relative">
@@ -280,7 +273,9 @@ export default function Tax() {
                                     পিতা/ স্বামীর নামঃ
                                   </label>
                                   <input
-                                    defaultValue={searchResults?.data?.fatherName}
+                                    defaultValue={
+                                      searchResults?.data?.fatherName
+                                    }
                                     type="text"
                                     readOnly
                                     required
@@ -290,7 +285,6 @@ export default function Tax() {
                                   />
                                 </div>
                               </div>
-
 
                               <div className="  w-full">
                                 <div className="relative">
@@ -343,7 +337,9 @@ export default function Tax() {
                                     গ্রাম / মহল্লাঃ
                                   </label>
                                   <input
-                                    defaultValue={searchResults?.data?.villageName}
+                                    defaultValue={
+                                      searchResults?.data?.villageName
+                                    }
                                     type="text"
                                     readOnly
                                     required
@@ -353,7 +349,6 @@ export default function Tax() {
                                   />
                                 </div>
                               </div>
-
 
                               <div className="  w-full">
                                 <div className="relative">
@@ -368,7 +363,6 @@ export default function Tax() {
                                       searchResults?.data?.mobile || 0
                                     }
                                     type="text"
-
                                     required
                                     id="email"
                                     name="mobile"
@@ -416,7 +410,6 @@ export default function Tax() {
                                           className="flex items-center border p-1 border-primary"
                                         >
                                           <input
-
                                             disabled={year?.some((item) =>
                                               item?.year.includes(cb.value)
                                             )}
@@ -440,67 +433,80 @@ export default function Tax() {
                                   </div>
                                 </div>
                               </div>
-
                             </div>
-
-
                           </div>
                         </div>
 
-                        <div className="flex flex-col lg:flex-row gap-2 p-2 bg-gray-200 glass mt-10 shadow-md">
-
+                        <div className="flex flex-col lg:flex-row gap-2 p-2 bg-white glass mt-10 shadow-md">
                           <div className=" lg:w-1/2 w-full flex justify-between py-1  border  ">
-
                             <div className="w-1/2 list-none ">
-                              <li className="border px-2 font-bold border-gray-400 text-sm">Description</li>
-                              <li className="border px-2 font-bold border-gray-400 text-sm">ধার্যকৃত কর</li>
-                              {
-                                searchResults?.data?.due > 0 && <li className="border px-2 font-bold border-gray-400 text-sm">পূর্বের বকেয়া</li>
-                              }
+                              <li className="border px-2 font-bold border-gray-400 text-sm">
+                                Description
+                              </li>
+                              <li className="border px-2 font-bold border-gray-400 text-sm">
+                                ধার্যকৃত কর
+                              </li>
+                              {searchResults?.data?.due > 0 && (
+                                <li className="border px-2 font-bold border-gray-400 text-sm">
+                                  পূর্বের বকেয়া
+                                </li>
+                              )}
 
-                              {
-                                newDue < inTotal && newDue !== 0 && <li className="border px-2 font-bold border-gray-400 text-sm">নতুন বকেয়া</li>
-                              }
+                              {newDue < inTotal && newDue !== 0 && (
+                                <li className="border px-2 font-bold border-gray-400 text-sm">
+                                  নতুন বকেয়া
+                                </li>
+                              )}
 
-                              <li className="border px-2 font-bold border-gray-400 text-sm">ডিসকাউন্ট </li>
-                              <li className="border px-2 font-bold border-gray-400 text-sm text-black">সবমোট টাকা</li>
+                              <li className="border px-2 font-bold border-gray-400 text-sm">
+                                ডিসকাউন্ট{" "}
+                              </li>
+                              <li className="border px-2 font-bold border-gray-400 text-sm text-black">
+                                সবমোট টাকা
+                              </li>
                             </div>
                             <div className="w-1/2 list-none">
-                              <li className="border px-2 font-bold border-gray-400 text-sm">Amount</li>
-                              <li className="border px-2 font-bold border-gray-400 text-sm">{searchResults?.data?.cor}</li>
-                              {
-                                searchResults?.data?.due > 0 && <li className="border px-2 font-bold border-gray-400 text-sm">{searchResults?.data?.due}</li>
-                              }
+                              <li className="border px-2 font-bold border-gray-400 text-sm">
+                                Amount
+                              </li>
+                              <li className="border px-2 font-bold border-gray-400 text-sm">
+                                {searchResults?.data?.cor}
+                              </li>
+                              {searchResults?.data?.due > 0 && (
+                                <li className="border px-2 font-bold border-gray-400 text-sm">
+                                  {searchResults?.data?.due}
+                                </li>
+                              )}
 
-                              {
-                                newDue < inTotal && newDue !== 0 && <li className="border px-2 font-bold border-gray-400 text-sm text-yellow-700">{newDue}</li>
-                              }
+                              {newDue < inTotal && newDue !== 0 && (
+                                <li className="border px-2 font-bold border-gray-400 text-sm text-yellow-700">
+                                  {newDue}
+                                </li>
+                              )}
 
-                              <li className="border px-2 font-bold border-gray-400 text-sm">{discountAmount || 0}</li>
-                              <li className="border px-2  border-gray-400 text-sm font-bold text-black">{inTotal}</li>
+                              <li className="border px-2 font-bold border-gray-400 text-sm">
+                                {discountAmount || 0}
+                              </li>
+                              <li className="border px-2  border-gray-400 text-sm font-bold text-black">
+                                {inTotal}
+                              </li>
                             </div>
-
                           </div>
                           <div className="card lg:w-1/2 w-full">
                             <div className="w-full flex items-center gap-4 py-1 ">
-
-
                               {selectedYears.length > 0 && (
                                 <div className=" lg:w-1/2 w-full">
                                   <div className="relative">
                                     <label
                                       htmlFor="email"
                                       className="leading-7 text-sm text-gray-600"
-                                    >
-
-                                    </label>
+                                    ></label>
                                     <input
                                       onChange={(e) =>
                                         setDiscountAmount(e.target.value)
                                       }
                                       type="number"
                                       placeholder="ডিসকাউন্ট % "
-
                                       id="email"
                                       className="w-full  font-bold  rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none  py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                                     />
@@ -513,9 +519,7 @@ export default function Tax() {
                                     <label
                                       htmlFor="email"
                                       className="leading-7 text-sm text-gray-600"
-                                    >
-
-                                    </label>
+                                    ></label>
                                     <input
                                       onChange={(e) =>
                                         setPayableAmount(e.target.value)
@@ -529,13 +533,8 @@ export default function Tax() {
                                   </div>
                                 </div>
                               )}
-
-
-
                             </div>
                           </div>
-
-
                         </div>
                         <div className="  ">
                           <div className=" w-full mb-2 flex items-center justify-end gap-2 my-4 ">
@@ -553,7 +552,6 @@ export default function Tax() {
                             </button>
                           </div>
                         </div>
-
                       </form>
                     </div>
                   </div>
@@ -561,9 +559,9 @@ export default function Tax() {
               )
             )}
             {searchResults?.success === false && (
-              <span className="text-rose-600 font-bold sm:ml-10 py-5">
-                Data Not Found
-              </span>
+              <div className=" text-rose-600 font-bold animate-pulse  py-5">
+                No Data Found
+              </div>
             )}
           </>
         )}
@@ -575,7 +573,6 @@ export default function Tax() {
         <dialog id="my_modal_3" className="modal">
           <div className="modal-box">
             <form method="dialog">
-
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 to">
                 ✕
               </button>

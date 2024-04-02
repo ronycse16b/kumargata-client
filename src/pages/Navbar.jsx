@@ -3,7 +3,7 @@
 const Navbar = ({handleToggleClick,
     setMobileMenuOpen}) => {
     return (
-        <div className="navbar bg-primary sticky top-5  flex justify-between shadow-sm rounded-md z-40  ">
+        <div className="navbar  shadow-md   border-b border-white sticky top-5 rounded-md flex justify-between  z-40  ">
             <div className="">
             
                 <button  onClick={() => handleToggleClick(() => setMobileMenuOpen(true))}  className="p-2 ">

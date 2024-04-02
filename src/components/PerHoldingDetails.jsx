@@ -21,7 +21,6 @@ export default function PerHoldingDetails() {
   }, [id, data,refetch])
 
 
-  console.log(data);
 
 
   const dateObject = new Date(data?.data?.createdAt);
@@ -64,7 +63,7 @@ export default function PerHoldingDetails() {
 
           <div
             ref={componentRef}
-            className="container mx-auto p-8 max-w-4xl bg-white  h-auto border "
+            className="container mx-auto p-8 max-w-4xl bg-white    h-auto border "
           >
             <header className="flex flex-col sm:flex-row justify-around items-center p-4">
               {/* Logo and Union Parishad Information */}

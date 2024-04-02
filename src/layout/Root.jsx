@@ -23,8 +23,8 @@ export default function DashboardLayOut() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50/50 scrollbar-hide ">
-      <aside className={`bg-gradient-to-br from-gray-800 to-gray-900 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 ${mobileMenuOpen ? '' : '-translate-x-80'}`}>
+    <div className="min-h-screen bg-gray-100 scrollbar-hide ">
+      <aside className={`bg-gradient-to-tl from-green-700 via-teal-800 to-cyan-900 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 glass rounded-xl transition-transform duration-300 xl:translate-x-0 ${mobileMenuOpen ? '' : '-translate-x-80'}`}>
         <div className="relative border-b border-white/20">
           <a className="flex items-center gap-4 py-6 px-8" href="#/">
             <h6 className="block antialiased tracking-normal font-sans font-bold text-sm uppercase leading-relaxed text-white">
@@ -35,14 +35,14 @@ export default function DashboardLayOut() {
           </a>
 
         </div>
-        <div className="m-4 ">
+        <div className="m-4  ">
           <SideBar handleToggleClick={handleToggleClick} setMobileMenuOpen={setMobileMenuOpen} />
 
         </div>
       </aside>
       <div className="p-4 xl:ml-80">
         <Navbar handleToggleClick={handleToggleClick} setMobileMenuOpen={setMobileMenuOpen} />
-        <div className="mt-6"><hr className="" /></div>
+      
         <div className="scrollbar-hide">
 
           <div>
@@ -55,7 +55,7 @@ export default function DashboardLayOut() {
           <footer className="py-2">
             <div className="flex w-full flex-wrap items-center justify-center gap-6 px-2 md:justify-between">
               <p className="block antialiased font-sans text-sm leading-normal font-normal text-inherit">
-                © 2023, made with{" "}
+                © 2024, made with{" "}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
