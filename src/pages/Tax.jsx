@@ -145,7 +145,8 @@ export default function Tax() {
       if (response?.data) {
         document.getElementById("my_modal_3").showModal();
         const GenerateQRCode = async (SerialNo) => {
-          const url = `https://doulkhaup.web.app/api/payment-view/${SerialNo}`;
+          const url = `{https://kumargata-up.web.app/payment-view/${SerialNo}`;
+
 
           try {
             const generatedQR = await QRCode.toDataURL(url, {
@@ -180,7 +181,7 @@ export default function Tax() {
         <h6 className="underline">কর আদায় </h6>
       </div>
       <div className=" sm:mt-10 mt-5 relative  ">
-        {loading ? (
+        {isLoading ? (
           <SmallLoader title="Payment Processing..." />
         ) : (
           <>
@@ -215,7 +216,7 @@ export default function Tax() {
 
               <div className="lg:w-1/3 w-full">
                 <input
-                  type="number"
+                  type="text"
                   {...register("holding", {
                     required: " হোল্ডিং নাম্বার দিন ১",
                   })}

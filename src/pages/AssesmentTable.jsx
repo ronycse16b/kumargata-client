@@ -133,7 +133,7 @@ export default function AllData() {
                 <div className="  mx-auto   ">
 
                     <div className=" rounded-none    gap-5 flex flex-col lg:flex-row shadow-sm">
-                        <div className=" card w-[600px] h-20 p-5 rounded-md bg-rose-600 text-white glass">
+                        <div className=" card lg:w-[600px] h-20 p-5 rounded-md bg-rose-600 text-white glass">
                            
                             <div className="stat-title text-xs font-bold text-white">মোট খানা</div>
                             <div className="stat-value text-xs">
@@ -144,7 +144,7 @@ export default function AllData() {
                                 )}
                             </div>
                         </div>
-                        <div className=" card w-[600px] h-20 p-5 rounded-md bg-green-600 text-white glass">
+                        <div className=" card lg:w-[600px] h-20 p-5 rounded-md bg-green-600 text-white glass">
                            
                             <div className="stat-title text-xs font-bold text-white">মোট ধার্যকৃত কর</div>
                             <div className="stat-value text-xs">
@@ -155,7 +155,7 @@ export default function AllData() {
                                 )}
                             </div>
                         </div>
-                        <div className=" card w-[600px] h-20 p-5 rounded-md bg-blue-600 text-white glass">
+                        <div className=" card lg:w-[600px] h-20 p-5 rounded-md bg-blue-600 text-white glass">
                            
                             <div className="stat-title text-xs font-bold text-white">মোট কর আদায় </div>
                             <div className="stat-value text-xs">
@@ -166,7 +166,7 @@ export default function AllData() {
                                 )}
                             </div>
                         </div>
-                        <div className=" card w-[600px] h-20 p-5 rounded-md bg-yellow-600 text-white glass">
+                        <div className=" card lg:w-[600px] h-20 p-5 rounded-md bg-yellow-600 text-white glass">
                             
                             <div className="stat-title text-xs font-bold text-white">মোট বকেয়া </div>
                             <div className="stat-value text-xs">
@@ -268,6 +268,8 @@ export default function AllData() {
                                         <th className=" border min-w-32">গ্রাম</th>
                                         <th className=" border ">পুরুষ</th>
                                         <th className=" border ">নারী</th>
+                                        <th className=" border ">প্রতিবন্ধী</th>
+                                        <th className=" border ">সঃ ভাতা</th>
                                         <th className=" border ">বাড়ির ধরন</th>
                                         <th className=" border min-w-32">পেশা</th>
                                         <th className=" border min-w-32">বাড়ির নাম</th>

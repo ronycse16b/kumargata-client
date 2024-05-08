@@ -30,46 +30,30 @@ export default function Login() {
   };
 
   return (
-    <div className=" relative flex flex-col justify-center items-center h-[100vh] bg-gradient-to-tl from-green-700 via-teal-800 to-cyan-900">
-      <div className="absolute top-0 border-b w-full border-t glass bg-white bg-opacity-50">
+    <div className=" relative flex flex-col justify-center bg-slate-300 items-center h-[100vh] ">
+      <div className="absolute top-0 border-b w-full border-t   bg-opacity-50">
         <h1 className="text-md sm:text-xl  py-2 text-center font-bold uppercase ">
-          Smart Union Management System 
-          <span className="text-red-600 ml-2">(Daulkhar Union)</span>
+          Smart Union Management System
+          
+          <span className="text-red-600 ml-2">(৪নং কুমারগাতা ইউনিয়ন)</span>
         </h1>
       </div>
-      <div className="w-full sm:max-w-md  p-10 mx-auto shadow-white  shadow-2xl   rounded-tr-3xl my-4  ">
-        <h2 className="mb-8 text-xl font-bold text-white">Welcome! Login</h2>
+      <div className="w-full sm:max-w-md  p-10 mx-auto card  border   rounded-tr-3xl my-4  ">
+        <h2 className="mb-8 text-xl font-bold text-black">Welcome! Login</h2>
         <form onSubmit={handleSubmit} className="">
-          {error && (
-            <div
-              role="alert"
-              className="flex items-center mb-4 animate-pulse font-bold uppercase bg-warning rounded-md "
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="stroke-current shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                />
-              </svg>
-              <span>{error}</span>
-            </div>
+        {error && (
+            <p className="block animate-pulse font-bold mb-2 uppercase text-red-600 ">
+              {error}
+            </p>
           )}
           <div className="mb-4">
             <input
               type="email"
               required
               placeholder="Email ID"
-              
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="appearance-none border rounded w-full py-1 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="mb-4">
@@ -79,7 +63,7 @@ export default function Login() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="appearance-none border rounded w-full py-1 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="mt-4 flex items-center justify-between">
@@ -87,7 +71,7 @@ export default function Login() {
               {/* <input id="remember_me" disabled type="checkbox" className="border border-gray-300 text-red-600 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50" />
                                 <label htmlFor="remember_me" className="ml-2 block text-sm leading-5 text-gray-900"> Remember me </label> */}
             </div>
-            <Link to="/forgot" className="text-sm font-bold text-white">
+            <Link to="/forgot" className="text-sm font-bold text-black">
               Forgotten password?{" "}
             </Link>
           </div>
@@ -112,7 +96,7 @@ export default function Login() {
         </form>
 
         <div className="mt-5">
-          <p className="text-sm text-center sm:px-6 text-gray-200">
+          <p className="text-sm text-center sm:px-6 text-black">
             Don't have an account?
             <Link
               to="/register"

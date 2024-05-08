@@ -25,7 +25,8 @@ const DataDetails = ({ data, index, refetch,refetchCalculateData }) => {
 
   const GenerateQRCode = async (data) => {
     setLoading(true);
-    const url = `https://doulkhaup.web.app/view/${data?._id}`;
+    const url = `https://kumargata-up.web.app/view/${data?._id}`;
+
 
     await QRCode.toDataURL(
       url,
@@ -105,6 +106,8 @@ const DataDetails = ({ data, index, refetch,refetchCalculateData }) => {
         <td className="border border-gray-400 ">{convertToBengaliNumber(data?.male ? data?.male : '-' || 0)}</td>
         <td className="border border-gray-400 ">{convertToBengaliNumber(data?.female ? data?.female : '-' || 0)}</td>
 
+        <td className="border border-gray-400 ">{data?.potibondhi ? data?.potibondhi : '-'}</td>
+        <td className="border border-gray-400 ">{data?.gov_vata ? data?.gov_vata : '-'}</td>
         <td className="border border-gray-400 ">{data?.house ? data?.house : '-'}</td>
         <td className="border border-gray-400 ">{data?.profession ? data?.profession : '-'}</td>
         <td className="border border-gray-400 ">{data?.houseName ? data?.houseName : '-'}</td>
@@ -128,7 +131,7 @@ const DataDetails = ({ data, index, refetch,refetchCalculateData }) => {
               <FaEdit />
             </Link>
            {
-               userInfo?.role === "admin" &&  <a
+               userInfo?.role === "admin" || userInfo?.role === "superAdmin"  &&  <a
                href="#"
                onClick={() => handelDelete(data)}
                className=" bg-red-500  btn btn-xs  text-white hover:shadow-lg text-xs font-thin"

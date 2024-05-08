@@ -133,6 +133,12 @@ export const router = createBrowserRouter([
     path: "/password-reset",
     element: <PasswordReset />,
   },
+  {
+    name: "per-holding-details",
+    path: "/view/:id",
+    element: <PerHoldingDetails />,
+
+  },
 
 
 ]);

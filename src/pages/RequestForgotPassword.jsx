@@ -52,9 +52,9 @@ const RequestForgotPassword = () => {
                     </div>
                 </div>
             </div>
-            <div className="min-h-screen bg-gradient-to-tl from-green-700 via-teal-800 to-cyan-900 flex items-center justify-center">
+            <div className="min-h-screen  flex items-center justify-center">
 
-                <div className=" border rounded px-8 pt-6 pb-8 mb-4 max-w-md w-full text-white">
+                <div className=" border rounded px-8 pt-6 pb-8 mb-4 max-w-md w-full text-black">
                     <h1 className="text-center text-2xl font-bold mb-6">Forgot Password</h1>
                     {
                         error && <h1 className="block animate-bounce font-bold mb-2 uppercase text-red-600" >
@@ -64,13 +64,13 @@ const RequestForgotPassword = () => {
                     <form onSubmit={handleResetRequest}>
                         <div className="mb-4">
 
-                            <label className="block text-gray-200 font-bold mb-2" htmlFor="email">
+                            <label className="block text-gray-900 font-bold mb-2" htmlFor="email">
                                 Email 
                             </label>
                             <input required className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" type="email" placeholder="Enter your email address" />
                         </div>
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" type="submit">
-                            {isLoading ? "Processing..." : "Request Reset Password"}
+                            {isLoading ? "Processing..." : "Reset Password"}
                         </button>
                     </form>
                 </div>

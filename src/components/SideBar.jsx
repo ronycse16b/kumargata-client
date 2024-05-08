@@ -40,7 +40,7 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
 
   return (
 
-    <ul className="menu menu-sm  text-white   max-w-xs w-full space-y-3">
+    <ul className="menu menu-sm   text-white   max-w-xs w-full space-y-3">
       <li className="text-white  bg-blue-600 rounded-md">
         <NavLink
           onClick={() => handleToggleClick(() => setMobileMenuOpen(true))}
@@ -55,18 +55,18 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
         >
           <FaHome className=" h-4 text-white" />
           <p className="text-white">
-            {/* ড্যাশবোর্ড */} Dashboard
+            ড্যাশবোর্ড 
           </p>
         </NavLink>
       </li>
       {
-        userInfo && (userInfo?.role === 'admin' || userInfo?.role === 'user') && <>
+        userInfo && (userInfo?.role === 'admin' || userInfo?.role === 'user' || userInfo?.role === 'superAdmin') && <>
 
           <li>
             <details open >
               <summary className=" ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" /></svg>
-                {/* এসেসমেন্ট */} Assessment
+                 এসেসমেন্ট 
               </summary>
               <ul className="mt-2">
                 <li>
@@ -83,7 +83,7 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
                   >
                     <FaWpforms className=" h-4" />
                     <p className="">
-                      {/* আবেদন ফরম */} Application Form
+                     আবেদন ফরম 
                     </p>
                   </NavLink>
                 </li>
@@ -101,7 +101,7 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
                   >
                     <FcViewDetails className=" h-4" />
                     <p className="">
-                      {/* এসেসমেন্ট তালিকা  */} Assessment Details
+                     এসেসমেন্ট তালিকা  
                     </p>
                   </NavLink>
                 </li>
@@ -123,7 +123,7 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
             >
               <FaSearch className=" h-4" />
               <p className="">
-                {/* হোল্ডিং এবং কর যাচাই  */}  Holding Find & Tax Check
+                হোল্ডিং এবং কর যাচাই  
               </p>
             </NavLink>
           </li>
@@ -132,13 +132,13 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
       }
 
       {
-        userInfo && userInfo?.role === 'admin' && <>
+        userInfo && userInfo?.role === 'admin' || userInfo?.role === 'superAdmin'   && <>
 
           <li className="text-white">
             <details open>
               <summary className=" mb-1">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" /></svg>
-                {/* কর */} Tax Management
+                 কর ম্যানেজমেন্ট
               </summary>
               <ul>
                 <li className="text-white">
@@ -155,7 +155,7 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
                   >
                     <TbCoinTaka className=" h-4" />
                     <p className="">
-                      {/* কর আদায় */}  Tax Taken Here
+                       কর আদায় 
                     </p>
                   </NavLink>
                 </li>
@@ -173,7 +173,7 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
                   >
                     <FaBook className=" h-4" />
                     <p className="">
-                      {/* আদায় রেজিস্টার */} Register
+                       আদায় রেজিস্টার 
                     </p>
                   </NavLink>
                 </li>
@@ -192,7 +192,7 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
                   >
                     <FaBook className=" h-4" />
                     <p className="">
-                    payment Receipt
+                    পেমেন্ট রিসিপ্ট
                     </p>
                   </NavLink>
                 </li>
@@ -207,11 +207,12 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
             </details>
 
           </li>
-          <li className="text-white">
+          {
+            userInfo&& userInfo?.role === 'superAdmin' && <li className="text-white">
             <details open>
               <summary className=" ">
                 <FaUsers className="h-4 w-4" />
-                {/* ইউজার ম্যানেজমেন্ট */} Users Management
+                ইউজার ম্যানেজমেন্ট 
               </summary>
               <ul>
                 <li className="text-white mt-2">
@@ -228,7 +229,7 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
                   >
                     <FaBook className=" h-4 " />
                     <p className="">
-                      {/* সকল ইউজার তালিকা */} All Users
+                       সকল ইউজার তালিকা 
                     </p>
                   </NavLink>
                 </li>
@@ -238,6 +239,8 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
             </details>
 
           </li>
+          }
+          
 
 
         </>
@@ -256,7 +259,7 @@ export default function SideBar({ handleToggleClick, setMobileMenuOpen }) {
         <div>
           <h2 className="text-lg font-semibold text-white">{userInfo?.name}</h2>
           <span className="flex items-center space-x-1">
-            <Link to='/profile' rel="noopener noreferrer" href="#" className="text-xs hover:underline text-gray-400">View profile</Link>
+            <Link  to='/profile' rel="noopener noreferrer" href="#" className="text-xs hover:underline text-gray-400">View profile</Link>
           </span>
         </div>
       </div>

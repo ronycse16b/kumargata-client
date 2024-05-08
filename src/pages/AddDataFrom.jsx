@@ -49,6 +49,9 @@ export default function AddDataFrom() {
         ward: wardId,
         due: FieldData.due || 0,
       };
+
+      // console.log(updatedFieldData);
+      // setIsSaving(false);
       const res = await postApplicationData(updatedFieldData);
 
       if (res && res.data) {
@@ -68,11 +71,11 @@ export default function AddDataFrom() {
   };
 
   return (
-    <section className=" mt-5  shadow-xl rounded-md  scrollbar-hide md:max-w-3xl lg:max-w-full  ">
+    <section className=" mt-5   rounded-md  scrollbar-hide md:max-w-3xl lg:max-w-full  ">
       <div className="  mb-3  text-green-600 font-bold   ">
         <h6 className="underline">এসেসমেন্ট আবেদন</h6>
       </div>
-      <div className="bg-white py-2 ">
+      <div className=" py-2 lg:p-2 ">
         <div className="xl:max-w-[970px] mx-auto">
           <div className=""></div>
           <div className="sm:mt-10">
@@ -92,6 +95,21 @@ export default function AddDataFrom() {
                       <div>
                         <label className="text-sm" htmlfor="">
                           পিতার নামঃ
+                        </label>
+                      </div>
+                      <div>
+                        <label className="text-sm" htmlfor="">
+                          মাতার নামঃ
+                        </label>
+                      </div>
+                      <div>
+                        <label className="text-sm" htmlfor="">
+                          জন্ম তারিখঃ
+                        </label>
+                      </div>
+                      <div>
+                        <label className="text-sm" htmlfor="">
+                        প্রতিবন্ধীঃ
                         </label>
                       </div>
                     </div>
@@ -124,11 +142,58 @@ export default function AddDataFrom() {
                           </span>
                         )}
                       </div>
+                      <div className="">
+                        <input
+                          type="text"
+                          className="flex-grow w-full h-10 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                          placeholder="সালমা বেগম"
+                          {...register("motherName")}
+                        />
+                        {errors.motherName && (
+                          <span className="text-red-600 text-sm" role="alert">
+                            {errors.motherName.message}
+                          </span>
+                        )}
+                      </div>
+                      <div className="">
+                        <input
+                          type="date"
+                          className="flex-grow w-full h-10 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                          placeholder="সালমা বেগম"
+                          {...register("dateOfBirth")}
+                        />
+                        {errors.dateOfBirth && (
+                          <span className="text-red-600 text-sm" role="alert">
+                            {errors.dateOfBirth.message}
+                          </span>
+                        )}
+                      </div>
+                      <div className="">
+                        <select
+                          {...register("potibondhi")}
+                          className="select select-sm  flex-grow w-full h-10 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline max-w-xs "
+                        >
+                          <option value="">পছন্দ করুন</option>
+                          <option value="হ্যাঁ">হ্যাঁ</option>
+                          <option value="না">না</option>
+                          
+                        </select>
+                        {errors.potibondhi && (
+                          <span className="text-red-600 text-sm" role="alert">
+                            {errors.potibondhi.message}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
 
                   <div className=" flex justify-center gap-8 mt-3 sm:gap-8 ">
                     <div className="label-child space-y-9">
+                      <div>
+                        <label className="text-sm" htmlfor="grid-password">
+                          এন আইডি/জন্ম নিবন্ধনঃ
+                        </label>
+                      </div>
                       <div>
                         <label className="text-sm" htmlfor="grid-password">
                           মোবাইলঃ
@@ -139,8 +204,32 @@ export default function AddDataFrom() {
                           পেশাঃ
                         </label>
                       </div>
+                      <div>
+                        <label className="text-sm" htmlfor="grid-password">
+                          বৈবাহিক অবস্থাঃ
+                        </label>
+                      </div>
+                      <div>
+                        <label className="text-sm" htmlfor="">
+                        সরকারি ভাতাঃ
+
+                        </label>
+                      </div>
                     </div>
                     <div className=" space-y-[17px]">
+                      <div className="">
+                        <input
+                          type="number"
+                          {...register("nid")}
+                          className="flex-grow w-full h-10 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                          placeholder="0177XXXXXXXXXX"
+                        />
+                        {errors.nid && (
+                          <span className="text-red-600 text-sm" role="alert">
+                            {errors.nid.message}
+                          </span>
+                        )}
+                      </div>
                       <div className="">
                         <input
                           type="number"
@@ -170,6 +259,40 @@ export default function AddDataFrom() {
                         {errors.profession && (
                           <span className="text-red-600 text-sm" role="alert">
                             {errors.profession.message}
+                          </span>
+                        )}
+                      </div>
+                      <div className="">
+                        <select
+                          {...register("marriedStatus")}
+                          className="select select-sm  flex-grow w-full h-10 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline max-w-xs "
+                        >
+                          <option value="">পছন্দ করুন</option>
+                          <option value="বিবাহিত">বিবাহিত</option>
+                          <option value="অবিবাহিত">অবিবাহিত</option>
+                          <option value="তালাকপ্রাপ্ত">তালাকপ্রাপ্ত</option>
+                          <option value="বিধবা">বিধবা</option>
+                          <option value="অন্যান্য">অন্যান্য</option>
+                        </select>
+                        {errors.marriedStatus && (
+                          <span className="text-red-600 text-sm" role="alert">
+                            {errors.marriedStatus.message}
+                          </span>
+                        )}
+                      </div>
+                      <div className="">
+                        <select
+                          {...register("gov_vata")}
+                          className="select select-sm  flex-grow w-full h-10 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline max-w-xs "
+                        >
+                          <option value="">পছন্দ করুন</option>
+                          <option value="হ্যাঁ">হ্যাঁ</option>
+                          <option value="না">না</option>
+                          
+                        </select>
+                        {errors.gov_vata && (
+                          <span className="text-red-600 text-sm" role="alert">
+                            {errors.gov_vata.message}
                           </span>
                         )}
                       </div>
@@ -360,10 +483,17 @@ export default function AddDataFrom() {
                     <div className="space-y-4">
                       <div className="">
                         <input
-                          type="number"
-                          {...register("holding", {})}
+                          type="text"
+                          {...register("holding", {
+                            required: "This field is required",
+                            pattern: {
+                              value: /^(?:\d+|\d+\/\d+)$/,
+                              message:
+                                "Enter a valid number(e.g., 1, 3, 55, 10/1)",
+                            },
+                          })}
                           required
-                          className="flex-grow w-full h-10 px-4   transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                          className="flex-grow w-full h-10 px-4 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         />
 
                         {errors.holding && (

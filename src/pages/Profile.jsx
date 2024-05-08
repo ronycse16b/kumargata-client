@@ -10,7 +10,7 @@ import CountUp from "react-countup";
 
 export default function Profile() {
   const {
-    userInfo: { name, email, role, id, image },
+    userInfo: { name, email, role, id, image }
   } = useSelector((state) => state.auth);
   const [userProfileUpdate, result] = useUserProfileUpdateMutation();
 
@@ -21,16 +21,34 @@ export default function Profile() {
   const [uploadProgress, setUploadProgress] = useState(false);
 
   const handleFileChange = async (event) => {
-    await setSelectedFile(event.target.files[0]);
+    const file = event.target.files[0];
+
+    if (!file) {
+      alert("Please select a file");
+      return;
+    }
+
+    const fileSizeKB = file.size / 1024; // File size in KB
+    const maxFileSizeKB = 500; // Maximum allowed file size in KB
+
+    if (fileSizeKB > maxFileSizeKB) {
+      alert(`File size exceeds ${maxFileSizeKB}KB limit`);
+      return;
+    }
+
+    // Set the selected file in component state
+   await setSelectedFile(file);
+  
   };
 
   async function handleUpload() {
-    setUploadProgress(true);
+   
     const formData = new FormData();
     formData.append("avatar", selectedFile);
     const token = localStorage.getItem("userToken");
 
     try {
+      setUploadProgress(true)
       const response = await axios.put(
         `${import.meta.env.VITE_SERVER_URL}/api/user/avatar`,
         formData,
@@ -58,9 +76,12 @@ export default function Profile() {
     }
   }
 
+
+
   useEffect(() => {
     handleUpload();
   }, [selectedFile]);
+
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -91,7 +112,7 @@ export default function Profile() {
 
   return (
     <div className="mt-5">
-       <div className="  mb-3  text-green-600 font-bold   ">
+      <div className="  mb-3  text-green-600 font-bold   ">
         <h6 className="underline"> আমার প্রোফাইল</h6>
       </div>
       <div className=" flex gap-2 flex-col lg:flex-row    pt-10 rounded-lg text-gray-900">

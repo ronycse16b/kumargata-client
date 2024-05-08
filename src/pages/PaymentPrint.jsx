@@ -4,14 +4,15 @@ import { useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import '../style/payment.css'
+import logo from '../assets/logo.png'
+import convertToBengaliNumber from "../util/convertToBengaliNumber";
 export default function PaymentPrint() {
 
   const { payment } = useSelector((state) => state.payment);
 
-  const toBengaliNumber = (number) => {
-    const bengaliNumbers = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
-    return number.toString().replace(/\d/g, (digit) => bengaliNumbers[digit]);
-  };
+
+  console.log(payment);
+
 
   const gmtTime = new Date(payment?.data?.taxPayment?.createdAt);
 
@@ -27,12 +28,18 @@ export default function PaymentPrint() {
     <div>
       <div
         ref={componentRef}
-        className=" grid grid-cols-2 gap-2 max-w-4xl  mx-auto  bg-white mt-10  p-2 print:mx-0 print:my-0 print:px-0 print:py-0"
+        id="componentToDownload"
+        className=" grid grid-cols-1 lg:grid-cols-2 gap-2 max-w-4xl  mx-auto  bg-white print:flex   print:mx-0 print:my-0 print:px-0 print:py-0 actual-receipt"
       >
-        <div className="card-body mx-auto max-w-3xl border ">
-          <div className=" ">
-
-            <div className="text-center">
+       <div className="relative">
+        <img
+          src={logo}
+          className="left-24 w-64 object-cover absolute top-28 "
+          alt=""
+        />
+       <div className="card-body relative bg-white opacity-95  mx-auto max-w-3xl border    ">
+          <div className="   ">
+            <div className="text-center ">
               <h1 className="font-bold text-blue-700 print:text-[14px] ">
                 {payment?.data?.taxPayment?.union}
               </h1>
@@ -59,29 +66,74 @@ export default function PaymentPrint() {
                 <li>মোবাইলঃ</li>
                 <li>অর্থবছরঃ</li>
                 <li>সর্বমোট টাকাঃ</li>
+                <li>ডিসকাউন্টঃ</li>
                 <li>বকেয়া</li>
               </ul>
               <ul>
-                <li><span className="mr-5">:</span>{toBengaliNumber(payment?.data?.taxPayment?.holding || 0) || "-"}</li>
-                <li><span className="mr-5">:</span>{toBengaliNumber(payment?.data?.taxPayment?.ward) || "-"}</li>
-                <li><span className="mr-5">:</span>{payment?.data?.taxPayment?.name || "-"}</li>
-                <li><span className="mr-5">:</span>{payment?.data?.taxPayment?.fatherName || "-"}</li>
-                <li><span className="mr-5">:</span>{payment?.data?.taxPayment?.villageName || "-"}</li>
-                <li><span className="mr-5">:</span>{payment?.data?.taxPayment?.houseName || "-"}</li>
-                <li><span className="mr-5">:</span>০{toBengaliNumber(payment.data?.taxPayment?.mobile || 0) || "-"} </li>
-                <li><span className="mr-5">:</span>{toBengaliNumber(payment.data?.taxPayment?.year || 0) || "-"}</li>
-                <li><span className="mr-5">:</span>{toBengaliNumber(payment.data?.taxPayment?.total || 0) || "-"} =/</li>
-                <li><span className="mr-5">:</span>{toBengaliNumber(payment.data?.taxPayment?.due || 0) || "-"} =/</li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.holding || 0) ||
+                    "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.ward || 0) || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {payment?.data?.taxPayment?.name || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {payment?.data?.taxPayment?.fatherName || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {payment?.data?.taxPayment?.villageName || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {payment?.data?.taxPayment?.houseName || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>০
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.mobile || 0) ||
+                    "-"}{" "}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.year || 0) || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.total || 0) ||
+                    "-"}{" "}
+                  /=
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.discount || 0) ||
+                    "-"} /=
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.due || 0) ||
+                    "-"}{" "}
+                  /=
+                </li>
               </ul>
             </div>
 
-
             <div>
-              <img className="w-20 " src={payment?.generatedQR} alt="QR Code" />
+              <img
+                className="w-20 "
+                src={payment?.generatedQR}
+                alt="QR Code"
+              />
             </div>
           </div>
 
-          <div className="mt-4 text-[11px] flex items-center justify-between ">
+          <div className="mt-10 text-[11px] flex items-center justify-between ">
             <div>
               <h1 className="border-b-1  border-black">আদায়কারীর সাক্ষবঃ</h1>
               <p>{payment?.data?.taxPayment?.user}</p>
@@ -100,12 +152,17 @@ export default function PaymentPrint() {
 
             <hr />
           </div>
-
         </div>
-        <div className="card-body mx-auto max-w-3xl border ">
-          <div className=" ">
-
-            <div className="text-center">
+       </div>
+       <div className="relative">
+        <img
+          src={logo}
+          className="left-24 w-64 object-cover absolute top-28 "
+          alt=""
+        />
+       <div className="card-body relative bg-white opacity-95  mx-auto max-w-3xl border    ">
+          <div className="   ">
+            <div className="text-center ">
               <h1 className="font-bold text-blue-700 print:text-[14px] ">
                 {payment?.data?.taxPayment?.union}
               </h1>
@@ -113,7 +170,7 @@ export default function PaymentPrint() {
                 কর পরিশদের রশিদঃ {payment?.data?.taxPayment?.sn}
               </h3>
               <span className="font-bold text-[12px] rounded-full  px-1.5 py-0.5 bg-slate-300 ">
-                গ্রহক কপি
+                গ্রাহক কপি
               </span>
             </div>
           </div>
@@ -132,29 +189,75 @@ export default function PaymentPrint() {
                 <li>মোবাইলঃ</li>
                 <li>অর্থবছরঃ</li>
                 <li>সর্বমোট টাকাঃ</li>
+                <li>ডিসকাউন্টঃ</li>
                 <li>বকেয়া</li>
               </ul>
               <ul>
-                <li><span className="mr-5">:</span>{toBengaliNumber(payment?.data?.taxPayment?.holding || 0) || "-"}</li>
-                <li><span className="mr-5">:</span>{toBengaliNumber(payment?.data?.taxPayment?.ward || 0) || "-"}</li>
-                <li><span className="mr-5">:</span>{payment?.data?.taxPayment?.name || "-"}</li>
-                <li><span className="mr-5">:</span>{payment?.data?.taxPayment?.fatherName || "-"}</li>
-                <li><span className="mr-5">:</span>{payment?.data?.taxPayment?.villageName || "-"}</li>
-                <li><span className="mr-5">:</span>{payment?.data?.taxPayment?.houseName || "-"}</li>
-                <li><span className="mr-5">:</span>০{toBengaliNumber(payment.data?.taxPayment?.mobile || 0) || "-"} </li>
-                <li><span className="mr-5">:</span>{toBengaliNumber(payment.data?.taxPayment?.year || 0) || "-"}</li>
-                <li><span className="mr-5">:</span>{toBengaliNumber(payment.data?.taxPayment?.total || 0) || "-"} =/</li>
-                <li><span className="mr-5">:</span>{toBengaliNumber(payment.data?.taxPayment?.due || 0) || "-"} =/</li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.holding || 0) ||
+                    "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.ward || 0) || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {payment?.data?.taxPayment?.name || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {payment?.data?.taxPayment?.fatherName || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {payment?.data?.taxPayment?.villageName || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {payment?.data?.taxPayment?.houseName || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>০
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.mobile || 0) ||
+                    "-"}{" "}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.year || 0) || "-"}
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.total || 0) ||
+                    "-"}{" "}
+                  /=
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.discount || 0) ||
+                    "-"}{" "}
+                  /=
+                </li>
+                <li>
+                  <span className="mr-5">:</span>
+                  {convertToBengaliNumber(payment?.data?.taxPayment?.due || 0) ||
+                    "-"}{" "}
+                  =/
+                </li>
               </ul>
             </div>
 
-
             <div>
-              <img className="w-20 " src={payment?.generatedQR} alt="QR Code" />
+              <img
+                className="w-20 "
+                src={payment?.generatedQR}
+                alt="QR Code"
+              />
             </div>
           </div>
 
-          <div className="mt-4 text-[11px] flex items-center justify-between ">
+          <div className="mt-10 text-[11px] flex items-center justify-between ">
             <div>
               <h1 className="border-b-1  border-black">আদায়কারীর সাক্ষবঃ</h1>
               <p>{payment?.data?.taxPayment?.user}</p>
@@ -173,11 +276,10 @@ export default function PaymentPrint() {
 
             <hr />
           </div>
-
         </div>
-
-
-
+       </div>
+       
+       
       </div>
       <div className="flex justify-center px-10 print:hidden mt-10">
         <button

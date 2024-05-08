@@ -60,7 +60,7 @@ const AllUsers = () => {
   };
 
   useEffect(() => {
-    if (userInfo && userInfo.role !== "admin") {
+    if (userInfo && userInfo.role !== "superAdmin") {
       navigate("/");
     }
   }, [userInfo]);
@@ -105,7 +105,7 @@ const AllUsers = () => {
                     className="border-b hover:bg-orange-100 bg-white "
                   >
                     <td className=" border border-gray-400">{index + 1}</td>
-                    <td className=" border border-gray-400">{user?.name}</td>
+                    <td  className="border border-gray-400">{user?.name}</td>
                     <td className=" border border-gray-400">{user?.email}</td>
                     <td className=" border border-gray-400">
                       <select
@@ -115,13 +115,17 @@ const AllUsers = () => {
                             data: e.target.value,
                           })
                         }
+                        disabled={
+                          user?.email === "rony.cse16b@gmail.com"
+                        }
                         value={user.role}
                         defaultValue={user?.role}
-                        className={`bg-transparent border-b-2 border-gray-300 ${
+                        className={`bg-transparent border-b-2 border-gray-300 ${user?.email === 'rony.cse16b@gmail.com' && 'text-green-600 font-bold'} ${
                           user?.role === "pending" && "text-red-600 font-bold"
                         }  `}
                       >
                         <option value="pending">Pending</option>
+                        <option value="superAdmin">Super Admin</option>
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                       </select>
@@ -129,6 +133,9 @@ const AllUsers = () => {
 
                     <td className=" border border-gray-400">
                       <button
+                      disabled={
+                        user?.email === "rony.cse16b@gmail.com"
+                      }
                         onClick={() => handelDelete(user)}
                         type="button"
                         className="text-sm text-red-600  px-2 rounded focus:outline-none focus:shadow-outline"

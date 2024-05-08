@@ -71,7 +71,7 @@ const PaymentHistory = () => {
   return (
     <div className="mt-5">
       <div className="  mb-3  text-green-600 font-bold   ">
-        <h6 className="underline">সকল ইউজার</h6>
+        <h6 className="underline">পেমেন্ট রিসিপ্ট</h6>
       </div>
       <DataTable
         columns={columns}

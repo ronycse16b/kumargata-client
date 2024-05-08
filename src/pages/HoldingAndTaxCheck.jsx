@@ -71,7 +71,7 @@ export default function HoldingAndTaxCheck() {
                 <div className="lg:w-1/3 w-full">
                     <input
                         {...register("searchQuery")}
-                        type="number"
+                        type="text"
                         required
                         name="searchQuery"
                         placeholder="Holding"

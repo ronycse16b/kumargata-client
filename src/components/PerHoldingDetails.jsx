@@ -6,22 +6,22 @@ import convertToBengaliNumber from "../util/convertToBengaliNumber";
 import { useReactToPrint } from "react-to-print";
 import { FaPrint } from "react-icons/fa";
 import { useGetSingleDetailsQuery } from "../features/api/authApi";
-
+import logo from "../assets/logo.png";
 export default function PerHoldingDetails() {
-
   const [year, setyear] = useState([]);
   const { id } = useParams();
-  const { data, isFetching: isLoading,refetch  } = useGetSingleDetailsQuery({ id: id });
+  const {
+    data,
+    isFetching: isLoading,
+    refetch,
+  } = useGetSingleDetailsQuery({ id: id });
 
   useEffect(() => {
     if (data?.data?.checkbox) {
       setyear(data?.data?.checkbox);
-      refetch()
+      refetch();
     }
-  }, [id, data,refetch])
-
-
-
+  }, [id, data, refetch]);
 
   const dateObject = new Date(data?.data?.createdAt);
   // Options for formatting the date
@@ -56,45 +56,44 @@ export default function PerHoldingDetails() {
 
   return (
     <div className="">
-      {
-        isLoading ? <div className="h-[80vh] flex items-center justify-center absolute left-1/2">
+      {isLoading ? (
+        <div className="h-[80vh] flex items-center justify-center absolute left-1/2">
           <span className="loading loading-spinner text-red-600 font-bold loading-lg"></span>
-        </div> : <>
-
+        </div>
+      ) : (
+        <>
           <div
             ref={componentRef}
-            className="container mx-auto p-8 max-w-4xl bg-white    h-auto border "
+            className="container mx-auto  max-w-4xl bg-white    h-auto border "
           >
             <header className="flex flex-col sm:flex-row justify-around items-center p-4">
               {/* Logo and Union Parishad Information */}
-              {/* <div className="flex-shrink-0">
-            <img
-              className="w-24"
-              src="https://laksampurbaup.comillalg.gov.bd/logo_images/logo.png"
-              alt=""
-            />
-          </div> */}
+              <div className="flex-shrink-0">
+                <img className="w-24 h-24" src={logo} alt="" />
+              </div>
               <div className="text-center mt-2">
                 <h1 className="text-blue-800 text-xl font-bold mb-1">
-                  ১৪নং দৌলখাঁড় ইউনিয়ন পরিষদ
+                  ৪নং কুমারগাতা ইউনিয়ন পরিষদ
                 </h1>
-                <h2 className="text-sm mb-1"> ডাকঘরঃ দৌলখাঁড় বাজার -৩৫৮০</h2>
-                <h3 className="text-sm mb-1">উপজেলাঃনাঙ্গলকোট  জেলাঃকুমিল্লা</h3>
+                <h2 className="text-sm mb-1"> ডাকঘরঃ মুক্তাগাছা -২২১০</h2>
+                <h3 className="text-sm mb-1">
+                  উপজেলাঃ মুক্তাগাছা জেলাঃ ময়মনসিংহ
+                </h3>
                 <h4 className="text-sm">
                   web:{" "}
                   <span className="text-blue-900 underline">
-                    https://doulkhaup.comillalg.gov.bd
+                    https://kumargataup.mymensingh.gov.bd/
                   </span>
                 </h4>
               </div>
               {/* Government Logo */}
-              {/* <div className="flex-shrink-0 hidden sm:block">
-            <img
-              className="w-24"
-              src="https://seeklogo.com/images/B/bangladesh-govt-logo-A2C7688845-seeklogo.com.png"
-              alt=""
-            />
-          </div> */}
+              <div className="flex-shrink-0 hidden sm:block">
+                <img
+                  className="w-24"
+                  src="https://seeklogo.com/images/B/bangladesh-govt-logo-A2C7688845-seeklogo.com.png"
+                  alt=""
+                />
+              </div>
             </header>
 
             <main className="mt-10">
@@ -120,21 +119,22 @@ export default function PerHoldingDetails() {
                       <li className="flex gap-10 justify-between items-center">
                         <span>মোবাইল</span> <span className="">:</span>
                       </li>
-                      {/* <li className="flex gap-10 justify-between items-center">
-                    <span>জন্ম তারিখ</span> <span className="">:</span>
-                  </li>
-                  <li className="flex gap-10 justify-between items-center">
-                    <span>এন আইডি নম্বর</span> <span className="">:</span>
-                  </li>
-                  <li className="flex gap-10 justify-between items-center">
-                    <span>জন্ম নিবন্ধন নম্বর</span> <span className="">:</span>
-                  </li> */}
+                      <li className="flex gap-10 justify-between items-center">
+                        <span>জন্ম তারিখ</span> <span className="">:</span>
+                      </li>
+                      <li className="flex gap-10 justify-between items-center">
+                        <span>প্রতিবন্ধী</span> <span className="">:</span>
+                      </li>
+                      <li className="flex gap-10 justify-between items-center">
+                        <span>এন আইডি/ জন্ম নিবন্ধন</span>{" "}
+                        <span className="">:</span>
+                      </li>
                     </ul>
                   </div>
                   <div className="list-none ml-5">
                     <ul>
                       <li className="">
-                        <span>{formattedDate}</span>
+                        <span>{formatDateInBangla(formattedDate)|| formattedDate} ইং</span>
                       </li>
                       <li className="">
                         <span>{data?.data?.name || "-"}</span>
@@ -147,30 +147,46 @@ export default function PerHoldingDetails() {
                       </li>
                       <li className="">
                         <span>
-                          {convertToBengaliNumber(data?.data?.mobile ? '0' + data?.data?.mobile : '' || 0) || "-"}
+                          {convertToBengaliNumber(
+                            data?.data?.mobile
+                              ? "0" + data?.data?.mobile
+                              : "" || 0
+                          ) || "-"}
                         </span>
                       </li>
 
-                      {/* <li className="">
-                    <span>
-                      {formatDateInBangla(data?.data?.dateOfBirth || 0) || "-"}
-                    </span>
-                  </li> */}
-                      {/* <li className="">
-                    <span>{data?.data?.nidNumber || "-"}</span>
-                  </li>
-                  <li className="">
-                    <span>{data?.data?.birthRegNumber || "-"}</span>
-                  </li> */}
+                     
+                      <li className="">
+                        <span>
+                          {formatDateInBangla(data?.data?.dateOfBirth || 0) ||
+                            "-"}
+                        </span>
+                      </li>
+                      <li className="">
+                        <span>
+                          {data?.data?.potibondhi ||
+                            "-"}
+                        </span>
+                      </li>
+                      <li className="">
+                        <span>
+                          {convertToBengaliNumber(data?.data?.nid || 0) || "-"}
+                        </span>
+                      </li>
                     </ul>
                   </div>
                 </div>
                 <div className="mt-8 px-5 flex items-center text-sm">
                   <div className="list-none">
                     <ul>
-
+                      <li className="flex gap-10 justify-between items-center">
+                        <span>সরকারি ভাতা</span> <span className="">:</span>
+                      </li>
                       <li className="flex gap-10 justify-between items-center">
                         <span>পেশা</span> <span className="">:</span>
+                      </li>
+                      <li className="flex gap-10 justify-between items-center">
+                        <span>বৈবাহিক অবস্থা</span> <span className="">:</span>
                       </li>
 
                       <li className="flex gap-10 justify-between items-center">
@@ -189,9 +205,14 @@ export default function PerHoldingDetails() {
                   </div>
                   <div className="list-none ml-5">
                     <ul>
-
+                      <li className="">
+                        <span>{data?.data?.gov_vata || "-"}</span>
+                      </li>
                       <li className="">
                         <span>{data?.data?.profession || "-"}</span>
+                      </li>
+                      <li className="">
+                        <span>{data?.data?.marriedStatus || "-"}</span>
                       </li>
                       <li className="">
                         <span>{data?.data?.houseName || "-"}</span>
@@ -206,7 +227,8 @@ export default function PerHoldingDetails() {
                       </li>
                       <li className="">
                         <span>
-                          {convertToBengaliNumber(data?.data?.holding || 0) || "-"}
+                          {convertToBengaliNumber(data?.data?.holding || 0) ||
+                            "-"}
                         </span>
                       </li>
                     </ul>
@@ -234,7 +256,8 @@ export default function PerHoldingDetails() {
                       </td>
                       <td className="border px-4 py-2">
                         <span>
-                          {convertToBengaliNumber(data?.data?.female || 0) || "-"}
+                          {convertToBengaliNumber(data?.data?.female || 0) ||
+                            "-"}
                         </span>{" "}
                         জন
                       </td>
@@ -257,10 +280,14 @@ export default function PerHoldingDetails() {
                   <div className="list-none ml-5">
                     <ul>
                       <li className="">
-                        <span>{convertToBengaliNumber(data?.data?.cor || 0) || "-"}</span>
+                        <span>
+                          {convertToBengaliNumber(data?.data?.cor || 0) || "-"}
+                        </span>
                       </li>
                       <li className="">
-                        <span>{convertToBengaliNumber(data?.data?.due || 0) || "-"}</span>
+                        <span>
+                          {convertToBengaliNumber(data?.data?.due || 0) || "-"}
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -269,7 +296,8 @@ export default function PerHoldingDetails() {
                   <div className="list-none">
                     <ul>
                       <li className="flex gap-10 justify-between items-center">
-                        <span>বার্ষিক মূল্যায়ন</span> <span className="">:</span>
+                        <span>বার্ষিক মূল্যায়ন</span>{" "}
+                        <span className="">:</span>
                       </li>
                       {/* <li className="flex gap-10 justify-between items-center">
                     <span>কর আদায়কৃত অর্থবছর </span> <span className="">:</span>
@@ -280,7 +308,9 @@ export default function PerHoldingDetails() {
                     <ul>
                       <li className="">
                         <span>
-                          {convertToBengaliNumber(data?.data?.yearMullayon || 0) || "-"}
+                          {convertToBengaliNumber(
+                            data?.data?.yearMullayon || 0
+                          ) || "-"}
                         </span>
                       </li>
                     </ul>
@@ -321,7 +351,9 @@ export default function PerHoldingDetails() {
                   <thead className="text-sm">
                     <tr>
                       <th className="border px-4 py-2">বাড়ির ধরন</th>
-                      <th className="border px-4 py-2">{data?.data?.house || "-"}</th>
+                      <th className="border px-4 py-2">
+                        {data?.data?.house || "-"}
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="text-center text-sm"></tbody>
@@ -333,8 +365,8 @@ export default function PerHoldingDetails() {
             </div>
             <footer className="px-10 max-w-3xl text-sm mx-auto bottom-0 my-6">
               <p>
-                -1) এলাকার ১ জন ওয়ার্ড মেম্বার কর্তৃক সতায়িত করে ইউনিয়ন পরিষদে জমা
-                দিন ।
+                -1) এলাকার ১ জন ওয়ার্ড মেম্বার কর্তৃক সতায়িত করে ইউনিয়ন পরিষদে
+                জমা দিন ।
               </p>
               <p>-২) ১ কপি পাসপোর্ট সাইজ ছবি,(সতায়িত) ।</p>
               <p>
@@ -351,10 +383,8 @@ export default function PerHoldingDetails() {
               print now <FaPrint />
             </button>
           </div>
-
         </>
-      }
-
+      )}
     </div>
   );
 }
