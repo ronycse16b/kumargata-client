@@ -272,7 +272,7 @@ export default function AllData() {
                                         <th className=" border ">সঃ ভাতা</th>
                                         <th className=" border ">বাড়ির ধরন</th>
                                         <th className=" border min-w-32">পেশা</th>
-                                        <th className=" border min-w-32">বাড়ির নাম</th>
+                                        {/* <th className=" border min-w-32">বাড়ির নাম</th> */}
                                         <th className=" border ">বার্ষিক আয়</th>
                                         <th className=" border ">বকেয়াঃ</th>
                                         <th className=" border ">করঃ</th>

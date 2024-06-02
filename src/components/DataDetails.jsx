@@ -5,6 +5,7 @@ import convertToBengaliNumber from '../util/convertToBengaliNumber';
 import Swal from "sweetalert2";
 import {
   FaEdit,
+  FaEye,
   FaQrcode,
   FaRegCheckCircle,
   FaTrashAlt,
@@ -110,7 +111,7 @@ const DataDetails = ({ data, index, refetch,refetchCalculateData }) => {
         <td className="border border-gray-400 ">{data?.gov_vata ? data?.gov_vata : '-'}</td>
         <td className="border border-gray-400 ">{data?.house ? data?.house : '-'}</td>
         <td className="border border-gray-400 ">{data?.profession ? data?.profession : '-'}</td>
-        <td className="border border-gray-400 ">{data?.houseName ? data?.houseName : '-'}</td>
+        {/* <td className="border border-gray-400 ">{data?.houseName ? data?.houseName : '-'}</td> */}
         <td className="border border-gray-400 ">{convertToBengaliNumber(data?.yearMullayon ? data?.yearMullayon : '-' || 0)}</td>
         <td className="border border-gray-400 ">{convertToBengaliNumber(data?.due || 0)}</td>
         <td className="border border-gray-400 ">{convertToBengaliNumber(data?.cor ? data?.cor : '-' || 0)}</td>
@@ -120,7 +121,7 @@ const DataDetails = ({ data, index, refetch,refetchCalculateData }) => {
             to={`/details/${data._id}`}
             className=" bg-cyan-700 btn btn-xs  text-white hover:shadow-lg text-xs font-thin"
           >
-            Details
+            <FaEye className="w-4 h-4" />
           </Link>
 
           <>

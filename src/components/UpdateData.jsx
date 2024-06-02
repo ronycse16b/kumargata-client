@@ -20,12 +20,44 @@ const UpdateData = () => {
   const { id } = useParams();
   const { data, isFetching } = useGetSingleDetailsQuery({ id: id });
   const [wardId, setWardId] = useState(null);
+  const [wardNumber,setWordNumber] = useState(null);
   const { ward, loading: wardLoading } = useSelector((state) => state.ward);
   const { data: villageData, isFetching: loading } = useGetVillageQuery({
     ward: wardId,
   });
   const [singleDataUpdate, { isLoading: isUpdating }] =
     useSingleDataUpdateMutation();
+
+
+
+    const backendURL = import.meta.env.VITE_SERVER_URL;
+
+    const [nextHolding, setNextHolding] = useState(null);
+    const [error, setError] = useState(null);
+  
+    const previewNextHolding = async () => {
+    
+      try {
+        const response = await fetch(`${backendURL}/api/data/next-holding/${wardId}`);
+        const data = await response.json();
+        if (response.ok) {
+          setNextHolding(data.nextHolding);
+          setError(null);
+        } else {
+          setError(data.error);
+          setNextHolding(null);
+        }
+      } catch (err) {
+        setError('Error fetching the next holding number.');
+        setNextHolding(null);
+      }
+    }
+  
+    useEffect(() => {
+      previewNextHolding(wardNumber)
+    }, [wardNumber ,id]);
+
+  
 
   const { userInfo } = useSelector((state) => state.auth);
   const [isSaving, setIsSaving] = useState(false);
@@ -87,8 +119,8 @@ const UpdateData = () => {
     }
 
     if (data && data.data) {
-      setWardId(data?.data?.ward);
       setVillageName(data?.data.villageName);
+      setWardId(data?.data?.ward);
     }
   }, [data, setValue]);
 
@@ -123,6 +155,7 @@ const UpdateData = () => {
           <div className="  mb-3  text-green-600 font-bold   ">
             <h6 className="underline">এসেসমেন্ট আপডেট</h6>
           </div>
+       
           <div className="bg-white py-2 lg:p-2 ">
             <div className="xl:max-w-[970px] mx-auto">
               <div className=""></div>
@@ -391,11 +424,11 @@ const UpdateData = () => {
                               গ্রামঃ
                             </label>
                           </div>
-                          <div>
+                          {/* <div>
                             <label className="text-sm" htmlfor="grid-password">
                               বাড়ির নামঃ
                             </label>
-                          </div>
+                          </div> */}
 
                           <div>
                             <label className="text-sm" htmlfor="grid-password">
@@ -418,7 +451,7 @@ const UpdateData = () => {
                                 required: "ওয়ার্ড নাম্বর দিন",
                               })}
                               onChange={(e) => {
-                                setWardId(e.target.value);
+                                setWardId(e.target.value),setWordNumber(e.target.value)
                               }}
                               className="select select-sm flex-grow w-full h-10 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline max-w-xs "
                             >
@@ -466,7 +499,7 @@ const UpdateData = () => {
                               </span>
                             )}
                           </div>
-                          <div className="">
+                          {/* <div className="">
                             <input
                               type="text"
                               className="flex-grow w-full h-10 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
@@ -481,7 +514,7 @@ const UpdateData = () => {
                                 {errors.houseName.message}
                               </span>
                             )}
-                          </div>
+                          </div> */}
                           <div className="">
                             <select
                               {...register("male")}
@@ -566,18 +599,11 @@ const UpdateData = () => {
                           <div className="">
                             <input
                               type="text"
-                              {...register("holding", {
-                                required: "This field is required",
-                                pattern: {
-                                  value: /^(?:\d+|\d+\/\d+)$/,
-                                  message:
-                                    "Enter a valid number(e.g., 1, 3, 55, 10/1)",
-                                },
-                              })}
+                            value={wardId ? nextHolding : data?.data?.ward}
                               required
                               className="flex-grow w-full h-10 px-4 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                             />
-
+                                  {/* <span className="text-warning font-bold"> Next Holding  {wardId && nextHolding}</span>      */}
                             {errors.holding && (
                               <span
                                 className="text-red-600 text-sm"

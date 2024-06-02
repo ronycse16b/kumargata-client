@@ -5,9 +5,11 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useGetVillageQuery,
+  useGetWardDataForCalculateQuery,
   useGetWardDataQuery,
   usePostApplicationDataMutation,
 } from "../features/api/authApi";
+import axios from "axios";
 
 export default function AddDataFrom() {
   const {
@@ -27,6 +29,36 @@ export default function AddDataFrom() {
 
   const [wardId, setWardId] = useState("");
   const { data, isFetching } = useGetVillageQuery({ ward: wardId });
+
+  const backendURL = import.meta.env.VITE_SERVER_URL;
+
+  const [nextHolding, setNextHolding] = useState(null);
+  const [error, setError] = useState(null);
+
+  const previewNextHolding = async () => {
+  
+    try {
+      const response = await fetch(`${backendURL}/api/data/next-holding/${wardId}`);
+      const data = await response.json();
+      if (response.ok) {
+        setNextHolding(data.nextHolding);
+        setError(null);
+      } else {
+        setError(data.error);
+        setNextHolding(null);
+      }
+    } catch (err) {
+      setError('Error fetching the next holding number.');
+      setNextHolding(null);
+    }
+  }
+
+  useEffect(() => {
+    previewNextHolding()
+  }, [wardId ]);
+
+
+
 
   useEffect(() => {
     setVillageData(data?.village);
@@ -48,6 +80,7 @@ export default function AddDataFrom() {
         user: userName,
         ward: wardId,
         due: FieldData.due || 0,
+        // holding:generatedNumber
       };
 
       // console.log(updatedFieldData);
@@ -60,6 +93,9 @@ export default function AddDataFrom() {
 
         // Reset the entire form
         reset();
+      //  refetchCalculateData();
+      previewNextHolding();
+
       } else {
         toast.error(res.error.data?.message);
         setIsSaving(false);
@@ -74,6 +110,8 @@ export default function AddDataFrom() {
     <section className=" mt-5   rounded-md  scrollbar-hide md:max-w-3xl lg:max-w-full  ">
       <div className="  mb-3  text-green-600 font-bold   ">
         <h6 className="underline">এসেসমেন্ট আবেদন</h6>
+        
+      
       </div>
       <div className=" py-2 lg:p-2 ">
         <div className="xl:max-w-[970px] mx-auto">
@@ -318,11 +356,11 @@ export default function AddDataFrom() {
                           গ্রামঃ
                         </label>
                       </div>
-                      <div>
+                      {/* <div>
                         <label className="text-sm" htmlfor="grid-password">
                           বাড়ির নামঃ
                         </label>
-                      </div>
+                      </div> */}
 
                       <div>
                         <label className="text-sm" htmlfor="grid-password">
@@ -393,7 +431,7 @@ export default function AddDataFrom() {
                           </span>
                         )}
                       </div>
-                      <div className="">
+                      {/* <div className="">
                         <input
                           type="text"
                           className="flex-grow w-full h-10 px-4  transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
@@ -405,7 +443,7 @@ export default function AddDataFrom() {
                             {errors.houseName.message}
                           </span>
                         )}
-                      </div>
+                      </div> */}
                       <div className="">
                         <select
                           {...register("male")}
@@ -484,14 +522,7 @@ export default function AddDataFrom() {
                       <div className="">
                         <input
                           type="text"
-                          {...register("holding", {
-                            required: "This field is required",
-                            pattern: {
-                              value: /^(?:\d+|\d+\/\d+)$/,
-                              message:
-                                "Enter a valid number(e.g., 1, 3, 55, 10/1)",
-                            },
-                          })}
+                          value={nextHolding !== null && nextHolding}
                           required
                           className="flex-grow w-full h-10 px-4 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         />
