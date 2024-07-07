@@ -11,7 +11,7 @@ export default function PaymentPrint() {
   const { payment } = useSelector((state) => state.payment);
 
 
-  console.log(payment);
+
 
 
   const gmtTime = new Date(payment?.data?.taxPayment?.createdAt);
